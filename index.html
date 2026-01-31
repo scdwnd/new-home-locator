@@ -80,6 +80,16 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--g800);ba
 .score-ring .rbg{fill:none;stroke:rgba(255,255,255,.2);stroke-width:4}
 .score-ring .rfg{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .8s var(--ease)}
 .score-ring .stxt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff}
+.dual-rings{display:flex;gap:.5rem;align-items:center}
+.score-ring-sm{position:relative;width:44px;height:44px;flex-shrink:0;text-align:center}
+.score-ring-sm svg{transform:rotate(-90deg)}
+.score-ring-sm .rbg{fill:none;stroke:rgba(255,255,255,.2);stroke-width:4}
+.score-ring-sm .rfg{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .8s var(--ease)}
+.score-ring-sm .stxt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:#fff}
+.score-ring-sm .ring-label{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:rgba(255,255,255,.8);margin-top:.1rem;white-space:nowrap}
+.not-personalized .stxt{font-size:.8rem;opacity:.7}
+.not-personalized .ring-label{cursor:pointer}
+.not-personalized .ring-label:hover{color:#c4b5fd}
 
 /* CARD BODY */
 .card-body{padding:1.1rem}
@@ -271,6 +281,12 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--g800);ba
 .detail-qol-ring .stxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}
 .detail-qol-ring .stxt .qn{font-size:1.5rem;font-weight:900}
 .detail-qol-ring .stxt .ql{font-size:.55rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+.detail-dual-rings{display:flex;gap:1rem;align-items:center}
+.qol-banner{background:linear-gradient(135deg,var(--brand-bg),var(--accent-bg));border:1px solid var(--g200);border-radius:var(--r);padding:.75rem 1.25rem;margin:1rem 2rem;font-size:.8rem;color:var(--g600);line-height:1.6;display:flex;align-items:center;gap:.6rem}
+.qol-banner strong{color:var(--g800)}
+.radar-legend{display:flex;gap:1rem;justify-content:center;margin-top:.5rem;font-size:.72rem;font-weight:600}
+.radar-legend span{display:flex;align-items:center;gap:.3rem}
+.radar-legend .leg-swatch{width:14px;height:3px;border-radius:2px}
 .detail-pillars{display:flex;gap:.5rem;flex-wrap:wrap;padding:0 2rem}
 .detail-pillar-bar{flex:1;min-width:100px;background:var(--g50);border-radius:var(--r-sm);padding:.6rem;text-align:center}
 .detail-pillar-bar .dp-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--g400);margin-bottom:.3rem}
@@ -789,11 +805,23 @@ function scoreCity(c, p) {
   const pillarLabels={affordability:'Affordability',environment:'Environment',livability:'Livability',culture:'Culture & Food',economy:'Economy',community:'Community'};
   const strengths=Object.entries(pillars).sort((a,b)=>b[1]-a[1]).slice(0,3).filter(([,v])=>v>=60).map(([k])=>pillarLabels[k]);
 
+  // Natural score: objective, equal-weight, no penalties, neutral baselines
+  const natBMax=600000;
+  const natPriceRatio=c.mpn/natBMax;
+  let natAffHome=natPriceRatio<=.6?100:natPriceRatio<=.8?85:natPriceRatio<=1?70:natPriceRatio<=1.2?50:natPriceRatio<=1.5?30:15;
+  const natAffordability=Math.round(natAffHome*.45+70*.25+affCol*.30);
+  const natClimFit=70,natCoastFit=60,natIndMatch=60;
+  const natEnvironment=Math.round(natClimFit*.30+c.beauty*10*.25+natCoastFit*.20+(c.sunset||5)*10*.10+c.out*10*.15);
+  const natEconomy=Math.round(unempScore*.25+natIndMatch*.30+taxAdv*.25+(parseInt(c.sal.replace(/[^0-9]/g,''))/100000*100)*.20);
+  const naturalPillars={affordability:natAffordability,environment:natEnvironment,livability,culture,economy:natEconomy,community};
+  const natKeys=Object.keys(naturalPillars);
+  const naturalScore=Math.round(natKeys.reduce((s,k)=>s+naturalPillars[k],0)/natKeys.length);
+
   const costTrend=c.col>105?'Rising':c.col<95?'Cooling':'Stable';
   const growthSignal=(c.nearby?c.nearby.length:0)>5?'Growing':'Steady';
   const sentTrend='Awaiting data';
 
-  return{score:qol,pillars,strengths,costTrend,growthSignal,sentTrend,dims:pillars};
+  return{score:qol,naturalScore,pillars,naturalPillars,strengths,costTrend,growthSignal,sentTrend,dims:pillars};
 }
 
 /* === DEFAULT/FORM PREFS === */
@@ -812,6 +840,7 @@ function formPrefs(){return{
 function $(s){return document.getElementById(s)}
 function $$(s){return document.querySelectorAll(s)}
 
+function isPersonalized(){const d=defPrefs();return curPrefs.budget!==d.budget||curPrefs.climate!==d.climate||curPrefs.coastPref!==d.coastPref||curPrefs.youngKids!==d.youngKids||curPrefs.lowCrime!==d.lowCrime||curPrefs.life.length>0||curPrefs.cuisines.length>0||curPrefs.foodPri!==d.foodPri||curPrefs.beautyImp!==d.beautyImp||curPrefs.jobSit!==d.jobSit||(curPrefs.industry&&curPrefs.industry!=='')||(curPrefs.avoid&&curPrefs.avoid!=='')}
 let curPrefs=defPrefs(), scored=[];
 function scoreAll(p){
   scored=Object.entries(C).map(([name,city])=>{const r=scoreCity(city,p);return{name,city,...r}}).sort((a,b)=>b.score-a.score);
@@ -853,14 +882,25 @@ function renderGrid(cities){
 
 function buildCard(r,i){
   const c=r.city;
+  const pers=isPersonalized();
   let fit='';
-  if(r.strengths.length>=2)fit=`Stands out for ${r.strengths[0]} and ${r.strengths[1]}.`;
-  else if(r.strengths.length===1)fit=`Excels in ${r.strengths[0]}.`;
-  else fit='Balanced across your criteria.';
-  if(c.clim===curPrefs.climate)fit+=' Climate matches perfectly.';
+  if(pers){
+    const diff=r.score-r.naturalScore;
+    if(diff>3){const topPillar=Object.entries(r.pillars).sort((a,b)=>b[1]-a[1])[0];fit=`Personal QoL is ${diff} pts higher than Natural — you value ${({affordability:'Affordability',environment:'Environment',livability:'Livability',culture:'Culture & Food',economy:'Economy',community:'Community'})[topPillar[0]]}.`;}
+    else if(diff<-3)fit=`Personal QoL is ${Math.abs(diff)} pts lower than Natural due to dealbreakers or preference mismatch.`;
+    else fit=`Personal & Natural QoL closely aligned.`;
+    if(c.clim===curPrefs.climate)fit+=' Climate matches perfectly.';
+  } else {
+    if(r.strengths.length>=2)fit=`Stands out for ${r.strengths[0]} and ${r.strengths[1]}.`;
+    else if(r.strengths.length===1)fit=`Excels in ${r.strengths[0]}.`;
+    else fit='Balanced across all pillars.';
+  }
 
-  const sc=r.score>=75?'#10b981':r.score>=55?'#f59e0b':'#ef4444';
-  const circ=2*Math.PI*20,off=circ-(r.score/100)*circ;
+  const nsc=r.naturalScore>=75?'#0d9488':r.naturalScore>=55?'#0ea5e9':'#ef4444';
+  const sc=r.score>=75?'#8b5cf6':r.score>=55?'#a78bfa':'#ef4444';
+  const circ=2*Math.PI*18;
+  const noff=circ-(r.naturalScore/100)*circ;
+  const poff=circ-(r.score/100)*circ;
 
   let badges=`<span class="badge badge-rank">#${i+1}</span>`;
   if(c.coast)badges+=`<span class="badge badge-coastal">Coastal</span>`;
@@ -877,13 +917,13 @@ function buildCard(r,i){
 
   const expHTML=c.exp.map(e=>`<div class="exp-c"><div class="ee">${e.e}</div><div class="en">${e.n}</div><div class="et">${e.t}</div></div>`).join('');
 
-  const pils=r.pillars;
+  const pils=r.pillars,npils=r.naturalPillars;
   const pillarBars=[
-    {l:'Afford',v:pils.affordability,cl:'#10b981'},{l:'Environ',v:pils.environment,cl:'#0ea5e9'},
-    {l:'Livable',v:pils.livability,cl:'#6366f1'},{l:'Culture',v:pils.culture,cl:'#f59e0b'},
-    {l:'Economy',v:pils.economy,cl:'#ec4899'},{l:'Community',v:pils.community,cl:'#14b8a6'}
+    {l:'Afford',k:'affordability',cl:'#10b981'},{l:'Environ',k:'environment',cl:'#0ea5e9'},
+    {l:'Livable',k:'livability',cl:'#6366f1'},{l:'Culture',k:'culture',cl:'#f59e0b'},
+    {l:'Economy',k:'economy',cl:'#ec4899'},{l:'Community',k:'community',cl:'#14b8a6'}
   ];
-  const barsHTML=pillarBars.map(b=>`<div class="bar"><span class="bl">${b.l}</span><div class="bt"><div class="bf" style="width:${b.v}%;background:${b.cl}"></div></div><span class="bv">${b.v}</span></div>`).join('');
+  const barsHTML=pillarBars.map(b=>{const v=pils[b.k],nv=npils[b.k];return`<div class="bar"><span class="bl">${b.l}</span><div class="bt" style="position:relative"><div style="position:absolute;top:0;left:0;width:${nv}%;height:100%;background:${b.cl};opacity:.18;border-radius:4px"></div><div class="bf" style="width:${v}%;background:${b.cl}"></div></div><span class="bv">${v}</span></div>`}).join('');
 
   // Nearby towns chips
   const nearbyHTML=c.nearby?`
@@ -899,9 +939,17 @@ function buildCard(r,i){
       <div class="card-badges">${badges}</div>
       <div class="hero-ov">
         <div><div class="cname">${r.name}</div><div class="csub">${c.pop} · ${c.ind.split(',')[0].trim()}</div></div>
-        <div class="score-ring">
-          <svg width="48" height="48" viewBox="0 0 44 44"><circle class="rbg" cx="22" cy="22" r="20"/><circle class="rfg" cx="22" cy="22" r="20" stroke="${sc}" stroke-dasharray="${circ}" stroke-dashoffset="${off}"/></svg>
-          <div class="stxt">${r.score}</div>
+        <div class="dual-rings">
+          <div class="score-ring-sm">
+            <svg width="40" height="40" viewBox="0 0 40 40"><circle class="rbg" cx="20" cy="20" r="18"/><circle class="rfg" cx="20" cy="20" r="18" stroke="${nsc}" stroke-dasharray="${circ}" stroke-dashoffset="${noff}"/></svg>
+            <div class="stxt">${r.naturalScore}</div>
+            <div class="ring-label">Natural</div>
+          </div>
+          <div class="score-ring-sm${pers?'':' not-personalized'}">
+            <svg width="40" height="40" viewBox="0 0 40 40"><circle class="rbg" cx="20" cy="20" r="18"/>${pers?`<circle class="rfg" cx="20" cy="20" r="18" stroke="${sc}" stroke-dasharray="${circ}" stroke-dashoffset="${poff}"/>`:''}</svg>
+            <div class="stxt">${pers?r.score:'?'}</div>
+            <div class="ring-label"${pers?'':' onclick="openWizard()"'}>${pers?'Personal':'Personalize'}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -938,7 +986,8 @@ function buildCard(r,i){
 function renderCmp(top){
   const t=document.getElementById('cmpTbl');
   const m=[['Median Home',c=>c.mp],['Avg Rent',c=>c.rent],['COL Index',c=>c.col],['Walk Score',c=>c.ws],['Food',c=>c.food+'/10'],['Outdoor',c=>c.out+'/10'],['Culture',c=>c.cul+'/10'],['Safety',c=>c.safe+'/10'],['Schools',c=>c.sch+'/10'],['Unemployment',c=>c.unemp],['Salary',c=>c.sal],['Breweries',c=>c.brew+'/10'],['Coffee',c=>c.cof+'/10'],['Beauty',c=>c.beauty+'/10'],['Sunsets',c=>c.sunset+'/10']];
-  let h=`<thead><tr><th>Metric</th>${top.map(r=>`<th>${r.name}<br><span style="font-size:.6rem;opacity:.7">${r.score}/100</span></th>`).join('')}</tr></thead><tbody>`;
+  const pers=isPersonalized();
+  let h=`<thead><tr><th>Metric</th>${top.map(r=>`<th>${r.name}<br><span style="font-size:.6rem;color:#0d9488">Natural ${r.naturalScore}</span>${pers?`<br><span style="font-size:.6rem;color:#8b5cf6">Personal ${r.score}</span>`:''}</th>`).join('')}</tr></thead><tbody>`;
   m.forEach(([l,fn])=>{const vs=top.map(r=>fn(r.city));h+=`<tr><td style="font-weight:700;color:var(--g800)">${l}</td>${vs.map(v=>`<td>${v}</td>`).join('')}</tr>`});
   h+='</tbody>';t.innerHTML=h;
 }
@@ -1216,18 +1265,24 @@ function applyWizard(){
 }
 
 /* === DETAIL OVERLAY === */
-function buildRadarChart(pillars,labels,colors){
+function buildRadarChart(pillars,labels,colors,naturalPillars){
   const keys=Object.keys(pillars),n=keys.length,cx=150,cy=150,R=120,as=2*Math.PI/n;
   let grid='';
   [.25,.5,.75,1].forEach(s=>{const pts=[];for(let i=0;i<n;i++){const a=i*as-Math.PI/2;pts.push(`${cx+R*s*Math.cos(a)},${cy+R*s*Math.sin(a)}`);}grid+=`<polygon points="${pts.join(' ')}" fill="none" stroke="#e5e7eb" stroke-width="1"/>`;});
   let axes='';for(let i=0;i<n;i++){const a=i*as-Math.PI/2;axes+=`<line x1="${cx}" y1="${cy}" x2="${cx+R*Math.cos(a)}" y2="${cy+R*Math.sin(a)}" stroke="#e5e7eb" stroke-width="1"/>`;}
+  // Natural pillars polygon (dashed, lighter)
+  let natPoly='';
+  if(naturalPillars){const npts=[];for(let i=0;i<n;i++){const a=i*as-Math.PI/2,v=naturalPillars[keys[i]]/100;npts.push(`${cx+R*v*Math.cos(a)},${cy+R*v*Math.sin(a)}`);}
+    natPoly=`<polygon points="${npts.join(' ')}" fill="rgba(13,148,136,.08)" stroke="#0d9488" stroke-width="1.5" stroke-dasharray="5,4"/>`;}
+  // Personal pillars polygon (solid)
   const pts=[];for(let i=0;i<n;i++){const a=i*as-Math.PI/2,v=pillars[keys[i]]/100;pts.push(`${cx+R*v*Math.cos(a)},${cy+R*v*Math.sin(a)}`);}
   let lbls='',dots='';
   for(let i=0;i<n;i++){const a=i*as-Math.PI/2,v=pillars[keys[i]]/100,lx=cx+(R+28)*Math.cos(a),ly=cy+(R+28)*Math.sin(a),anchor=Math.abs(lx-cx)<10?'middle':lx>cx?'start':'end';
     lbls+=`<text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle" fill="${colors[keys[i]]}" font-size="11" font-weight="700">${labels[keys[i]]} (${pillars[keys[i]]})</text>`;
     dots+=`<circle cx="${cx+R*v*Math.cos(a)}" cy="${cy+R*v*Math.sin(a)}" r="4" fill="${colors[keys[i]]}"/>`;
   }
-  return`<svg viewBox="0 0 300 300" width="300" height="300">${grid}${axes}<polygon points="${pts.join(' ')}" fill="rgba(13,148,136,.15)" stroke="var(--brand)" stroke-width="2"/>${dots}${lbls}</svg>`;
+  const legend=naturalPillars?`</svg><div class="radar-legend"><span><span class="leg-swatch" style="background:#0d9488;border:1px dashed #0d9488"></span> Natural</span><span><span class="leg-swatch" style="background:var(--brand)"></span> Personal</span></div>`:'</svg>';
+  return`<svg viewBox="0 0 300 300" width="300" height="300">${grid}${axes}${natPoly}<polygon points="${pts.join(' ')}" fill="rgba(13,148,136,.15)" stroke="var(--brand)" stroke-width="2"/>${dots}${lbls}${legend}`;
 }
 
 async function fetchForecast(lat,lon){
@@ -1258,13 +1313,17 @@ async function loadDetailSentiment(city){
 
 function openDetail(cityName){
   const r=scored.find(s=>s.name===cityName);if(!r)return;
-  const c=r.city,p=r.pillars;
-  const sc=r.score>=75?'#10b981':r.score>=55?'#f59e0b':'#ef4444';
-  const circ=2*Math.PI*38,off=circ-(r.score/100)*circ;
+  const c=r.city,p=r.pillars,np=r.naturalPillars;
+  const pers=isPersonalized();
+  const nsc=r.naturalScore>=75?'#0d9488':r.naturalScore>=55?'#0ea5e9':'#ef4444';
+  const sc=r.score>=75?'#8b5cf6':r.score>=55?'#a78bfa':'#ef4444';
+  const circ=2*Math.PI*38;
+  const noff=circ-(r.naturalScore/100)*circ;
+  const poff=circ-(r.score/100)*circ;
   const pillarColors={affordability:'#10b981',environment:'#0ea5e9',livability:'#6366f1',culture:'#f59e0b',economy:'#ec4899',community:'#14b8a6'};
   const pillarLabels={affordability:'Affordability',environment:'Environment',livability:'Livability',culture:'Culture & Food',economy:'Economy',community:'Community'};
-  const pillarBarsHTML=Object.entries(p).map(([k,v])=>`<div class="detail-pillar-bar"><div class="dp-label">${pillarLabels[k]}</div><div class="dp-val" style="color:${pillarColors[k]}">${v}</div><div class="dp-track"><div class="dp-fill" style="width:${v}%;background:${pillarColors[k]}"></div></div></div>`).join('');
-  const radarSVG=buildRadarChart(p,pillarLabels,pillarColors);
+  const pillarBarsHTML=Object.entries(p).map(([k,v])=>{const nv=np[k];return`<div class="detail-pillar-bar"><div class="dp-label">${pillarLabels[k]}</div><div class="dp-val" style="color:${pillarColors[k]}">${v}</div><div class="dp-track" style="position:relative"><div style="position:absolute;left:${nv}%;top:-2px;bottom:-2px;width:2px;background:var(--g400);border-radius:1px" title="Natural: ${nv}"></div><div class="dp-fill" style="width:${v}%;background:${pillarColors[k]}"></div></div></div>`}).join('');
+  const radarSVG=buildRadarChart(p,pillarLabels,pillarColors,np);
   const rests=c.restaurants||[];
   const restHTML=rests.map(r=>`<div class="rest-card"><div class="rn">${r.name}</div><div class="rc">${r.cuisine} · ${r.price}</div><div class="rr">${'★'.repeat(Math.floor(r.rating))}${'☆'.repeat(5-Math.floor(r.rating))} ${r.rating}</div><div class="rnote">${r.note}</div></div>`).join('');
   const evtHTML=(c.events||[]).map(e=>`<div style="display:flex;gap:.75rem;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--g100)"><div style="min-width:70px;font-size:.72rem;font-weight:700;color:var(--brand)">${e.d}</div><div><div style="font-weight:700;font-size:.85rem">${e.n}</div><span class="stag stag-neu">${e.t}</span></div></div>`).join('');
@@ -1276,8 +1335,12 @@ function openDetail(cityName){
 
   document.getElementById('detailContent').innerHTML=`
     <div class="detail-hero" style="background-image:url('${c.img}')"><div class="detail-hero-inner"><div><h1>${cityName}</h1><div class="sub">${c.pop} · ${c.st} · ${c.ind.split(',')[0].trim()}</div></div>
-    <div class="detail-qol-ring"><svg width="90" height="90" viewBox="0 0 84 84"><circle class="rbg" cx="42" cy="42" r="38"/><circle class="rfg" cx="42" cy="42" r="38" stroke="${sc}" stroke-dasharray="${circ}" stroke-dashoffset="${off}"/></svg><div class="stxt"><span class="qn">${r.score}</span><span class="ql">QoL Score</span></div></div></div></div>
-    <div class="detail-pillars" style="margin-top:-1.5rem;position:relative;z-index:3">${pillarBarsHTML}</div>
+    <div class="detail-dual-rings">
+      <div class="detail-qol-ring"><svg width="90" height="90" viewBox="0 0 84 84"><circle class="rbg" cx="42" cy="42" r="38"/><circle class="rfg" cx="42" cy="42" r="38" stroke="${nsc}" stroke-dasharray="${circ}" stroke-dashoffset="${noff}"/></svg><div class="stxt"><span class="qn">${r.naturalScore}</span><span class="ql">Natural</span></div></div>
+      <div class="detail-qol-ring${pers?'':' not-personalized'}"><svg width="90" height="90" viewBox="0 0 84 84"><circle class="rbg" cx="42" cy="42" r="38"/>${pers?`<circle class="rfg" cx="42" cy="42" r="38" stroke="${sc}" stroke-dasharray="${circ}" stroke-dashoffset="${poff}"/>`:''}</svg><div class="stxt"><span class="qn">${pers?r.score:'?'}</span><span class="ql">${pers?'Personal':'Personalize'}</span></div></div>
+    </div></div></div>
+    <div class="qol-banner">💡 <span><strong>Natural QoL</strong> = objective city quality (equal-weight, no preferences). <strong>Personal QoL</strong> = tailored to your priorities & dealbreakers.${!pers?' <a href="#" onclick="event.preventDefault();openWizard()">Personalize now →</a>':''}</span></div>
+    <div class="detail-pillars" style="margin-top:0;position:relative;z-index:3">${pillarBarsHTML}</div>
     <div class="detail-body">
       <div class="detail-section"><h3>📊 QoL Breakdown</h3><div class="radar-wrap">${radarSVG}</div></div>
       <div class="detail-section"><h3>🌤️ Live Weather & 7-Day Forecast</h3><div class="wx" id="detailWxCurrent"><span>Current:</span> <span class="wt">Loading...</span></div><div class="wx-forecast" id="detailWxForecast"></div></div>
