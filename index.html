@@ -253,6 +253,65 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--g800);ba
 .wiz-back{padding:.5rem 1rem;background:var(--g100);color:var(--g600);font-size:.82rem;font-weight:600;border:none;border-radius:var(--r);cursor:pointer}
 .wiz-back:hover{background:var(--g200)}
 .wiz-foot-left{display:flex;gap:.5rem;align-items:center}
+
+/* DETAIL OVERLAY */
+.detail-overlay{position:fixed;inset:0;z-index:800;background:#fff;overflow-y:auto;transform:translateY(100%);transition:transform .4s var(--ease),opacity .3s;opacity:0}
+.detail-overlay.open{transform:translateY(0);opacity:1}
+.detail-close{position:fixed;top:1rem;right:1rem;z-index:810;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+.detail-close:hover{background:rgba(0,0,0,.8)}
+.detail-hero{position:relative;height:320px;background-size:cover;background-position:center;display:flex;align-items:flex-end}
+.detail-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.7))}
+.detail-hero-inner{position:relative;z-index:2;padding:2rem;width:100%;display:flex;align-items:flex-end;justify-content:space-between;gap:1rem}
+.detail-hero-inner h1{color:#fff;font-size:2rem;font-weight:900;letter-spacing:-.03em;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.detail-hero-inner .sub{color:rgba(255,255,255,.8);font-size:.9rem}
+.detail-qol-ring{width:90px;height:90px;position:relative;flex-shrink:0}
+.detail-qol-ring svg{transform:rotate(-90deg)}
+.detail-qol-ring .rbg{fill:none;stroke:rgba(255,255,255,.2);stroke-width:6}
+.detail-qol-ring .rfg{fill:none;stroke-width:6;stroke-linecap:round}
+.detail-qol-ring .stxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}
+.detail-qol-ring .stxt .qn{font-size:1.5rem;font-weight:900}
+.detail-qol-ring .stxt .ql{font-size:.55rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+.detail-pillars{display:flex;gap:.5rem;flex-wrap:wrap;padding:0 2rem}
+.detail-pillar-bar{flex:1;min-width:100px;background:var(--g50);border-radius:var(--r-sm);padding:.6rem;text-align:center}
+.detail-pillar-bar .dp-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--g400);margin-bottom:.3rem}
+.detail-pillar-bar .dp-val{font-size:1.1rem;font-weight:800;margin-bottom:.3rem}
+.detail-pillar-bar .dp-track{height:5px;background:var(--g200);border-radius:3px;overflow:hidden}
+.detail-pillar-bar .dp-fill{height:100%;border-radius:3px}
+.detail-body{max-width:1000px;margin:1.5rem auto;padding:0 2rem}
+.detail-section{margin-bottom:2rem}
+.detail-section h3{font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--brand);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem}
+.radar-wrap{display:flex;justify-content:center;padding:1rem 0}
+.radar-wrap svg text{font-family:'Inter',sans-serif}
+.wx-forecast{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:.5rem}
+.wx-day{text-align:center;padding:.6rem .3rem;background:var(--g50);border-radius:var(--r-sm)}
+.wx-day .wd{font-size:.65rem;font-weight:700;color:var(--g500)}
+.wx-day .wi{font-size:1.3rem;margin:.2rem 0}
+.wx-day .wh{font-size:.82rem;font-weight:700;color:var(--g800)}
+.wx-day .wl{font-size:.72rem;color:var(--g400)}
+.rest-carousel{position:relative;overflow:hidden}
+.rest-track{display:flex;transition:transform .5s var(--ease);gap:.75rem}
+.rest-card{flex-shrink:0;width:220px;background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:1rem}
+.rest-card .rn{font-weight:700;font-size:.88rem;color:var(--g800);margin-bottom:.2rem}
+.rest-card .rc{font-size:.72rem;color:var(--brand);font-weight:600}
+.rest-card .rr{font-size:.78rem;color:var(--orange);margin:.2rem 0}
+.rest-card .rnote{font-size:.72rem;color:var(--g400);font-style:italic;margin-top:.3rem}
+.rest-arrows{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;pointer-events:none;padding:0 .25rem}
+.rest-arr{width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;border:none;cursor:pointer;pointer-events:auto;display:flex;align-items:center;justify-content:center;font-size:.8rem}
+.rest-arr:hover{background:rgba(0,0,0,.7)}
+.pred-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.pred-card{padding:1rem;background:var(--g50);border-radius:var(--r);text-align:center}
+.pred-card .pt{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--g400);margin-bottom:.3rem}
+.pred-card .pv{font-size:1.1rem;font-weight:800}
+.pred-card .pd{font-size:.72rem;color:var(--g500);margin-top:.2rem}
+.trend-up{color:#ef4444}.trend-down{color:#10b981}.trend-stable{color:var(--g500)}
+.market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.market-card{padding:1rem;background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);text-align:center}
+.market-card .mk-val{font-size:1.1rem;font-weight:800;color:var(--g800)}
+.market-card .mk-label{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--g400);margin-top:.2rem}
+.sent-gauge{display:flex;align-items:center;gap:1rem;padding:1rem;background:var(--g50);border-radius:var(--r)}
+.sent-gauge .sg-bar{flex:1;height:10px;background:var(--g200);border-radius:5px;overflow:hidden;display:flex}
+.sent-gauge .sg-pos{background:#10b981;height:100%}.sent-gauge .sg-neu{background:var(--g300);height:100%}.sent-gauge .sg-neg{background:#ef4444;height:100%}
+@media(max-width:600px){.detail-hero{height:220px}.detail-hero-inner h1{font-size:1.4rem}.detail-pillars{padding:0 1rem}.detail-body{padding:0 1rem}.pred-grid,.market-grid{grid-template-columns:1fr}.wx-forecast{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
@@ -324,6 +383,12 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--g800);ba
 
 <footer class="site-footer">New Home Locator &copy; 2026 — AI city comparison. Data: Zillow, Redfin, Numbeo, BLS, WalkScore trends.</footer>
 
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detailOverlay">
+  <button class="detail-close" id="detailClose" onclick="closeDetail()">&times;</button>
+  <div id="detailContent"></div>
+</div>
+
 <!-- RESEARCH PANEL -->
 <div class="research-backdrop" id="rpBk" onclick="closeResearch()"></div>
 <div class="research-panel" id="rPanel">
@@ -356,6 +421,7 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--g800);ba
 const C = {
 "Austin, TX":{lat:30.27,lon:-97.74,sub:"Austin",st:"Texas",mp:"$520,000",mpn:520000,col:93,rent:"$1,900",rentn:1900,util:"$240–300",groc:"$420",pop:"985K",unemp:"3.8%",sal:"$78,000",ind:"Tech, Music, Government",ws:41,clim:"hot",sch:7,out:8,cul:9,tax:true,safe:6,coast:false,food:9,brew:9,cof:8,nl:9,div:8,dog:8,beauty:7,sunset:8,
 cuisines:["mexican","bbq","farm","coffee","brewery"],
+restaurants:[{name:"Franklin BBQ",cuisine:"BBQ",rating:4.8,price:"$$",note:"2-hour line, worth it"},{name:"Uchi",cuisine:"Japanese",rating:4.7,price:"$$$",note:"World-class omakase"},{name:"Veracruz All Natural",cuisine:"Mexican",rating:4.6,price:"$",note:"Best migas taco in TX"},{name:"Launderette",cuisine:"American",rating:4.5,price:"$$",note:"Housed in a former laundromat"},{name:"Ramen Tatsu-Ya",cuisine:"Ramen",rating:4.6,price:"$$",note:"Expect a wait"},{name:"Odd Duck",cuisine:"Farm-to-table",rating:4.5,price:"$$$",note:"Creative small plates"}],
 vibes:["Live Music Capital","Tech Hub","Foodie Paradise","Dog-Friendly","Weird & Proud"],
 exp:[{e:"🎸",n:"Live music on 6th St",t:"Nightlife"},{e:"🌮",n:"Taco crawl S. Congress",t:"Food"},{e:"🏊",n:"Barton Springs swim",t:"Outdoor"},{e:"🦇",n:"Congress Ave bats",t:"Nature"},{e:"🍖",n:"Franklin BBQ",t:"Food"},{e:"🛶",n:"Lady Bird Lake kayak",t:"Outdoor"}],
 img:"https://images.unsplash.com/photo-1531218150217-54595bc2b934?w=800&h=600&fit=crop",
@@ -375,6 +441,7 @@ nearby:[
 
 "Boise, ID":{lat:43.62,lon:-116.20,sub:"Boise",st:"Idaho",mp:"$500,000",mpn:500000,col:102,rent:"$1,600",rentn:1600,util:"$210–270",groc:"$390",pop:"245K",unemp:"3.5%",sal:"$70,000",ind:"Tech, Manufacturing, Outdoor",ws:36,clim:"four seasons",sch:8,out:10,cul:6,tax:false,safe:8,coast:false,food:6,brew:8,cof:7,nl:5,div:5,dog:9,beauty:10,sunset:9,
 cuisines:["farm","brewery"],
+restaurants:[{name:"Barbacoa",cuisine:"Latin Fusion",rating:4.5,price:"$$",note:"Boise favorite brunch spot"},{name:"Chandlers Steakhouse",cuisine:"Steakhouse",rating:4.6,price:"$$$",note:"Fine dining on the river"},{name:"Boise Fry Company",cuisine:"American",rating:4.4,price:"$",note:"Idaho potato heaven"},{name:"KIN",cuisine:"Asian Fusion",rating:4.5,price:"$$",note:"Creative Pan-Asian plates"},{name:"Diablo & Sons",cuisine:"Italian",rating:4.4,price:"$$",note:"Handmade pasta, hip vibe"},{name:"Juniper",cuisine:"Pacific NW",rating:4.3,price:"$$",note:"Farm-to-table seasonal menus"}],
 vibes:["Outdoor Paradise","Mountain Town","Safe & Clean","Rising Tech","Dog Heaven"],
 exp:[{e:"⛷️",n:"Bogus Basin skiing",t:"Outdoor"},{e:"🏔️",n:"Table Rock hike",t:"Outdoor"},{e:"🍺",n:"Brewery trail",t:"Food"},{e:"🚣",n:"Boise River float",t:"Outdoor"},{e:"🌄",n:"Sawtooth road trip",t:"Adventure"},{e:"🐕",n:"Greenbelt walk",t:"Lifestyle"}],
 img:"https://images.unsplash.com/photo-1617440168937-c6497eaa8db5?w=800&h=600&fit=crop",
@@ -392,6 +459,7 @@ nearby:[
 
 "Raleigh, NC":{lat:35.78,lon:-78.64,sub:"raleigh",st:"North Carolina",mp:"$460,000",mpn:460000,col:94,rent:"$1,700",rentn:1700,util:"$200–260",groc:"$400",pop:"480K",unemp:"3.7%",sal:"$75,000",ind:"Tech, Biotech, Research",ws:31,clim:"mild",sch:8,out:8,cul:7,tax:false,safe:7,coast:false,food:7,brew:8,cof:7,nl:6,div:7,dog:8,beauty:7,sunset:7,
 cuisines:["bbq","farm","brewery","coffee"],
+restaurants:[{name:"Poole's Diner",cuisine:"Southern",rating:4.6,price:"$$",note:"Ashley Christensen's flagship"},{name:"Beasley's Chicken + Honey",cuisine:"Comfort",rating:4.5,price:"$$",note:"Fried chicken perfection"},{name:"Brewery Bhavana",cuisine:"Asian/Brewery",rating:4.5,price:"$$",note:"Dim sum + craft beer"},{name:"Death & Taxes",cuisine:"Wood-fired",rating:4.4,price:"$$$",note:"Everything cooked over coals"},{name:"Clyde Cooper's BBQ",cuisine:"BBQ",rating:4.3,price:"$",note:"Since 1938"},{name:"Transfer Co. Food Hall",cuisine:"Variety",rating:4.4,price:"$$",note:"Multi-vendor food hall gem"}],
 vibes:["Research Triangle","Southern Charm","Family-Friendly","Growing Fast","Craft Beer"],
 exp:[{e:"🍖",n:"Carolina BBQ trail",t:"Food"},{e:"🎓",n:"Duke/UNC campuses",t:"Culture"},{e:"🌳",n:"Umstead Park hike",t:"Outdoor"},{e:"🍺",n:"Downtown breweries",t:"Food"},{e:"🏛️",n:"NC Museum of Art",t:"Culture"},{e:"⛳",n:"Pinehurst golf",t:"Outdoor"}],
 img:"https://images.unsplash.com/photo-1570366404839-173099e1d372?w=800&h=600&fit=crop",
@@ -410,6 +478,7 @@ nearby:[
 
 "Tucson, AZ":{lat:32.22,lon:-110.97,sub:"Tucson",st:"Arizona",mp:"$380,000",mpn:380000,col:96,rent:"$1,300",rentn:1300,util:"$220–290",groc:"$380",pop:"550K",unemp:"4.1%",sal:"$65,000",ind:"Aerospace, Education, Healthcare",ws:43,clim:"hot",sch:6,out:9,cul:6,tax:false,safe:5,coast:false,food:8,brew:6,cof:6,nl:5,div:7,dog:7,beauty:9,sunset:10,
 cuisines:["mexican","farm"],
+restaurants:[{name:"El Charro Cafe",cuisine:"Mexican",rating:4.5,price:"$$",note:"Nation's oldest Mexican restaurant"},{name:"Cafe Poca Cosa",cuisine:"Mexican",rating:4.6,price:"$$",note:"Ever-changing blackboard menu"},{name:"El Guero Canelo",cuisine:"Sonoran",rating:4.5,price:"$",note:"James Beard Award hot dogs"},{name:"Prep & Pastry",cuisine:"Brunch",rating:4.4,price:"$$",note:"Creative brunch destination"},{name:"Tumerico",cuisine:"Vegan Mexican",rating:4.4,price:"$",note:"Plant-based Sonoran food"},{name:"The Parish",cuisine:"Southern/Gastropub",rating:4.3,price:"$$",note:"Elevated pub fare downtown"}],
 vibes:["Desert Beauty","UNESCO Food City","Stargazing Capital","Affordable","Sonoran Culture"],
 exp:[{e:"🌵",n:"Saguaro Natl Park",t:"Nature"},{e:"🌅",n:"Gates Pass sunset",t:"Nature"},{e:"🌮",n:"Sonoran hot dogs",t:"Food"},{e:"🔭",n:"Mt. Lemmon stargazing",t:"Adventure"},{e:"🏜️",n:"Desert Museum",t:"Nature"},{e:"🚴",n:"The Loop bike path",t:"Outdoor"}],
 img:"https://images.unsplash.com/photo-1577083165633-14ebcdb0f658?w=800&h=600&fit=crop",
@@ -426,6 +495,7 @@ nearby:[
 
 "Denver, CO":{lat:39.74,lon:-104.99,sub:"Denver",st:"Colorado",mp:"$620,000",mpn:620000,col:108,rent:"$2,100",rentn:2100,util:"$200–260",groc:"$430",pop:"715K",unemp:"4.0%",sal:"$82,000",ind:"Tech, Energy, Aerospace",ws:61,clim:"four seasons",sch:7,out:10,cul:8,tax:false,safe:6,coast:false,food:8,brew:10,cof:9,nl:8,div:7,dog:9,beauty:10,sunset:9,
 cuisines:["farm","brewery","coffee","mexican"],
+restaurants:[{name:"Morin",cuisine:"French",rating:4.7,price:"$$$",note:"RiNo French bistro, James Beard nod"},{name:"Guard and Grace",cuisine:"Steakhouse",rating:4.6,price:"$$$",note:"Modern chophouse downtown"},{name:"Hop Alley",cuisine:"Chinese",rating:4.5,price:"$$",note:"Sichuan in RiNo"},{name:"Mercantile Dining",cuisine:"Farm-to-table",rating:4.5,price:"$$$",note:"Union Station fine dining"},{name:"Los Chingones",cuisine:"Mexican",rating:4.4,price:"$$",note:"Best green chile in town"},{name:"Snooze",cuisine:"Brunch",rating:4.4,price:"$$",note:"Creative pancake flights"}],
 vibes:["Mile High City","Brewery Capital","Mountain Gateway","Active Lifestyle","300 Days Sun"],
 exp:[{e:"⛷️",n:"Ski day trip",t:"Outdoor"},{e:"🍺",n:"RiNo brewery crawl",t:"Food"},{e:"🏔️",n:"Red Rocks show",t:"Culture"},{e:"🥾",n:"Rocky Mtn NP hike",t:"Outdoor"},{e:"🚴",n:"Cherry Creek trail",t:"Outdoor"},{e:"☕",n:"LoHi coffee & brunch",t:"Food"}],
 img:"https://images.unsplash.com/photo-1619856699906-09e1f4ef34b0?w=800&h=600&fit=crop",
@@ -445,6 +515,7 @@ nearby:[
 
 "Nashville, TN":{lat:36.16,lon:-86.78,sub:"nashville",st:"Tennessee",mp:"$510,000",mpn:510000,col:96,rent:"$1,900",rentn:1900,util:"$210–270",groc:"$410",pop:"690K",unemp:"3.6%",sal:"$72,000",ind:"Music, Healthcare, Tourism",ws:30,clim:"mild",sch:7,out:7,cul:9,tax:true,safe:6,coast:false,food:9,brew:8,cof:7,nl:10,div:6,dog:7,beauty:7,sunset:7,
 cuisines:["bbq","farm","brewery"],
+restaurants:[{name:"Prince's Hot Chicken",cuisine:"Hot Chicken",rating:4.6,price:"$",note:"The original hot chicken"},{name:"Hattie B's",cuisine:"Hot Chicken",rating:4.5,price:"$$",note:"Tourist-friendly heat levels"},{name:"Martin's Bar-B-Que",cuisine:"BBQ",rating:4.5,price:"$$",note:"Whole-hog West TN BBQ"},{name:"The Catbird Seat",cuisine:"Tasting Menu",rating:4.7,price:"$$$$",note:"Chef's counter fine dining"},{name:"Biscuit Love",cuisine:"Southern",rating:4.5,price:"$$",note:"Bonuts are legendary"},{name:"Rolf & Daughters",cuisine:"Italian",rating:4.5,price:"$$$",note:"Handmade pasta, Germantown"}],
 vibes:["Music City","Hot Chicken Capital","No Income Tax","Bachelorette Central","Healthcare Hub"],
 exp:[{e:"🎸",n:"Honky tonk crawl",t:"Nightlife"},{e:"🍗",n:"Hot chicken battle",t:"Food"},{e:"🎵",n:"Grand Ole Opry",t:"Culture"},{e:"🍖",n:"Martin's BBQ",t:"Food"},{e:"🎤",n:"Bluebird Cafe",t:"Culture"},{e:"🥃",n:"Whiskey tour",t:"Food"}],
 img:"https://images.unsplash.com/photo-1587162146766-e06b1189b907?w=800&h=600&fit=crop",
@@ -462,6 +533,7 @@ nearby:[
 
 "Charlotte, NC":{lat:35.23,lon:-80.84,sub:"Charlotte",st:"North Carolina",mp:"$430,000",mpn:430000,col:95,rent:"$1,750",rentn:1750,util:"$190–250",groc:"$400",pop:"900K",unemp:"3.9%",sal:"$76,000",ind:"Finance, Banking, Tech",ws:26,clim:"mild",sch:7,out:7,cul:7,tax:false,safe:7,coast:false,food:7,brew:8,cof:7,nl:7,div:8,dog:7,beauty:7,sunset:6,
 cuisines:["bbq","brewery","farm"],
+restaurants:[{name:"Midwood Smokehouse",cuisine:"BBQ",rating:4.5,price:"$$",note:"Best brisket in CLT"},{name:"Kindred",cuisine:"Southern",rating:4.6,price:"$$$",note:"Davidson gem, milk bread is famous"},{name:"Haberdish",cuisine:"Southern",rating:4.4,price:"$$",note:"Shareable Southern plates"},{name:"Optimist Hall",cuisine:"Food Hall",rating:4.4,price:"$$",note:"Adaptive reuse, 20+ vendors"},{name:"Sea Level",cuisine:"Seafood",rating:4.3,price:"$$",note:"NC coast oysters in NoDa"},{name:"Leah & Louise",cuisine:"Juke Joint",rating:4.5,price:"$$",note:"James Beard semifinalist"}],
 vibes:["Banking Capital","Fast Growing","NASCAR Town","Southern Hospitality","Affordable Big City"],
 exp:[{e:"🏎️",n:"Motor Speedway",t:"Sports"},{e:"🍺",n:"NoDa breweries",t:"Food"},{e:"🏀",n:"Hornets game",t:"Sports"},{e:"🍖",n:"Midwood BBQ",t:"Food"},{e:"🎨",n:"Mint Museum",t:"Culture"},{e:"🚴",n:"Sugar Creek Greenway",t:"Outdoor"}],
 img:"https://images.unsplash.com/photo-1577084381314-5a1696546e76?w=800&h=600&fit=crop",
@@ -480,6 +552,7 @@ nearby:[
 
 "Portland, OR":{lat:45.51,lon:-122.68,sub:"Portland",st:"Oregon",mp:"$550,000",mpn:550000,col:125,rent:"$1,900",rentn:1900,util:"$200–260",groc:"$430",pop:"650K",unemp:"4.3%",sal:"$78,000",ind:"Tech, Outdoor, Creative",ws:67,clim:"cool",sch:8,out:9,cul:9,tax:false,safe:5,coast:true,food:10,brew:10,cof:10,nl:8,div:6,dog:10,beauty:9,sunset:8,
 cuisines:["farm","coffee","brewery","asian","seafood"],
+restaurants:[{name:"Canard",cuisine:"French",rating:4.7,price:"$$",note:"Wine bar + duck from Le Pigeon team"},{name:"Pok Pok",cuisine:"Thai",rating:4.6,price:"$$",note:"Andy Ricker's iconic wings"},{name:"Screen Door",cuisine:"Southern/Brunch",rating:4.5,price:"$$",note:"Epic weekend brunch lines"},{name:"Lardo",cuisine:"Sandwiches",rating:4.4,price:"$",note:"Over-the-top pork sandwiches"},{name:"Afuri",cuisine:"Ramen",rating:4.5,price:"$$",note:"Yuzu shio ramen from Tokyo"},{name:"Langbaan",cuisine:"Thai Tasting",rating:4.6,price:"$$$",note:"Hidden speakeasy Thai prix fixe"}],
 vibes:["Keep Portland Weird","Foodie Mecca","Coffee Capital","Bikeable","Green Living"],
 exp:[{e:"🍩",n:"Voodoo Doughnut",t:"Food"},{e:"☕",n:"Stumptown origins",t:"Food"},{e:"🍺",n:"Brewery pub crawl",t:"Food"},{e:"📚",n:"Powell's Books",t:"Culture"},{e:"🚴",n:"Bike the bridges",t:"Outdoor"},{e:"🌊",n:"Cannon Beach trip",t:"Adventure"}],
 img:"https://images.unsplash.com/photo-1535730558711-a32b818e7f2d?w=800&h=600&fit=crop",
@@ -498,6 +571,7 @@ nearby:[
 
 "Seattle, WA":{lat:47.61,lon:-122.33,sub:"Seattle",st:"Washington",mp:"$820,000",mpn:820000,col:140,rent:"$2,400",rentn:2400,util:"$210–280",groc:"$450",pop:"750K",unemp:"4.2%",sal:"$95,000",ind:"Tech, Aerospace, Biotech",ws:74,clim:"cool",sch:8,out:9,cul:9,tax:true,safe:6,coast:true,food:9,brew:9,cof:10,nl:8,div:8,dog:9,beauty:10,sunset:9,
 cuisines:["seafood","asian","coffee","farm","brewery"],
+restaurants:[{name:"Canlis",cuisine:"Fine Dining",rating:4.8,price:"$$$$",note:"Pacific NW fine dining icon"},{name:"Joule",cuisine:"Korean Steakhouse",rating:4.6,price:"$$$",note:"Korean-inspired cuts in Wallingford"},{name:"Paseo",cuisine:"Caribbean",rating:4.7,price:"$",note:"Best sandwich in Seattle"},{name:"Molly Moon's",cuisine:"Ice Cream",rating:4.5,price:"$",note:"Local favorite, scout mint"},{name:"Taylor Shellfish",cuisine:"Seafood",rating:4.5,price:"$$",note:"Oysters straight from the farm"},{name:"Din Tai Fung",cuisine:"Taiwanese",rating:4.6,price:"$$",note:"Legendary soup dumplings"}],
 vibes:["Tech Capital","Coffee Birthplace","Puget Sound Views","No Income Tax","Cultural Hub"],
 exp:[{e:"🐟",n:"Pike Place fish toss",t:"Culture"},{e:"☕",n:"Original Starbucks",t:"Food"},{e:"🏔️",n:"Mt. Rainier trip",t:"Outdoor"},{e:"🚢",n:"Bainbridge ferry",t:"Adventure"},{e:"🎵",n:"Museum of Pop Culture",t:"Culture"},{e:"🍣",n:"Intl District food",t:"Food"}],
 img:"https://images.unsplash.com/photo-1502175353174-a7a70e73b4c3?w=800&h=600&fit=crop",
@@ -517,6 +591,7 @@ nearby:[
 
 "Phoenix, AZ":{lat:33.45,lon:-112.07,sub:"phoenix",st:"Arizona",mp:"$470,000",mpn:470000,col:101,rent:"$1,700",rentn:1700,util:"$250–320",groc:"$410",pop:"1.65M",unemp:"4.0%",sal:"$73,000",ind:"Tech, Tourism, Healthcare",ws:41,clim:"hot",sch:6,out:8,cul:7,tax:false,safe:6,coast:false,food:7,brew:7,cof:6,nl:7,div:7,dog:6,beauty:8,sunset:10,
 cuisines:["mexican","bbq"],
+restaurants:[{name:"Pizzeria Bianco",cuisine:"Pizza",rating:4.8,price:"$$",note:"James Beard Award, best pizza in US"},{name:"Barrio Cafe",cuisine:"Mexican",rating:4.5,price:"$$",note:"Chef Silvana's modern Mexican"},{name:"Dick's Hideaway",cuisine:"New Mexican",rating:4.4,price:"$$",note:"Green chile everything"},{name:"The Clever Koi",cuisine:"Asian",rating:4.4,price:"$$",note:"Pan-Asian noodles & cocktails"},{name:"Durant's",cuisine:"Steakhouse",rating:4.5,price:"$$$",note:"Old-school through the kitchen entrance"},{name:"Taco Guild",cuisine:"Tacos",rating:4.3,price:"$",note:"Gourmet tacos in a converted church"}],
 vibes:["Valley of the Sun","Scottsdale Vibes","Desert Sunsets","Golf Capital","Snowbird Escape"],
 exp:[{e:"🌅",n:"Camelback sunset",t:"Outdoor"},{e:"⛳",n:"Scottsdale golf",t:"Outdoor"},{e:"🌮",n:"S. Phoenix tacos",t:"Food"},{e:"🏜️",n:"Sedona day trip",t:"Adventure"},{e:"💆",n:"Scottsdale spa",t:"Wellness"},{e:"🏟️",n:"Spring Training",t:"Sports"}],
 img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&h=600&fit=crop",
@@ -536,6 +611,7 @@ nearby:[
 
 "Boston, MA":{lat:42.36,lon:-71.06,sub:"boston",st:"Massachusetts",mp:"$820,000",mpn:820000,col:148,rent:"$2,800",rentn:2800,util:"$250–320",groc:"$480",pop:"685K",unemp:"3.9%",sal:"$92,000",ind:"Biotech, Finance, Education, Healthcare",ws:83,clim:"four seasons",sch:8,out:7,cul:10,tax:false,safe:6,coast:true,food:9,brew:8,cof:9,nl:9,div:8,dog:7,beauty:8,sunset:8,
 cuisines:["seafood","farm","coffee","asian","brewery"],
+restaurants:[{name:"Neptune Oyster",cuisine:"Seafood",rating:4.7,price:"$$$",note:"Lobster roll worth the wait"},{name:"Oleana",cuisine:"Mediterranean",rating:4.6,price:"$$$",note:"Ana Sortun's James Beard winner"},{name:"Mike's Pastry",cuisine:"Bakery",rating:4.4,price:"$",note:"North End cannoli institution"},{name:"Toro",cuisine:"Spanish Tapas",rating:4.5,price:"$$",note:"South End tapas hotspot"},{name:"Row 34",cuisine:"Seafood",rating:4.5,price:"$$",note:"Oysters + craft beer in Fort Point"},{name:"Giulia",cuisine:"Italian",rating:4.6,price:"$$$",note:"Handmade pasta in Cambridge"}],
 vibes:["World-Class Universities","Seafood Capital","Historic Charm","Walkable City","Sports Town"],
 exp:[{e:"🦞",n:"Lobster on the waterfront",t:"Food"},{e:"🏛️",n:"Freedom Trail walk",t:"Culture"},{e:"🏟️",n:"Fenway Park game",t:"Sports"},{e:"📚",n:"Harvard Yard stroll",t:"Culture"},{e:"🚶",n:"Beacon Hill cobblestones",t:"Culture"},{e:"🍺",n:"Sam Adams brewery tour",t:"Food"}],
 img:"https://images.unsplash.com/photo-1501979376754-2ff867a4f659?w=800&h=600&fit=crop",
@@ -555,6 +631,7 @@ nearby:[
 
 "Portsmouth, NH":{lat:43.07,lon:-70.76,sub:"PortsmouthNH",st:"New Hampshire",mp:"$650,000",mpn:650000,col:118,rent:"$2,200",rentn:2200,util:"$220–280",groc:"$430",pop:"22K",unemp:"2.8%",sal:"$72,000",ind:"Tech, Defense, Tourism, Maritime",ws:72,clim:"four seasons",sch:8,out:8,cul:8,tax:true,safe:9,coast:true,food:9,brew:9,cof:8,nl:7,div:4,dog:8,beauty:9,sunset:9,
 cuisines:["seafood","farm","brewery","coffee"],
+restaurants:[{name:"The Black Trumpet",cuisine:"Bistro",rating:4.6,price:"$$$",note:"Evan Mallett's creative seasonal"},{name:"Cure",cuisine:"Charcuterie",rating:4.5,price:"$$$",note:"House-cured meats & craft cocktails"},{name:"Moxy",cuisine:"New American",rating:4.4,price:"$$",note:"Farm-forward in a historic space"},{name:"Row 34 Portsmouth",cuisine:"Seafood",rating:4.5,price:"$$",note:"Oysters & local beer"},{name:"Street",cuisine:"Global Street Food",rating:4.3,price:"$",note:"International small plates"},{name:"The Friendly Toast",cuisine:"Brunch",rating:4.3,price:"$",note:"Eclectic all-day breakfast"}],
 vibes:["Seacoast Gem","No Income Tax","Historic Seaport","Foodie Town","Walkable Downtown"],
 exp:[{e:"🦞",n:"Lobster at The Oar House",t:"Food"},{e:"🚶",n:"Market Square stroll",t:"Culture"},{e:"🌊",n:"New Castle beach walk",t:"Outdoor"},{e:"🍺",n:"Brewery & cidery trail",t:"Food"},{e:"🏠",n:"Strawbery Banke museum",t:"Culture"},{e:"🎭",n:"Music Hall shows",t:"Culture"}],
 img:"https://images.unsplash.com/photo-1623177625843-59e1d4472e2e?w=800&h=600&fit=crop",
@@ -573,6 +650,7 @@ nearby:[
 
 "Wilmington, NC":{lat:34.24,lon:-77.95,sub:"Wilmington",st:"North Carolina",mp:"$390,000",mpn:390000,col:96,rent:"$1,500",rentn:1500,util:"$190–240",groc:"$390",pop:"125K",unemp:"4.0%",sal:"$62,000",ind:"Film, Healthcare, Tourism, Marine Science",ws:32,clim:"mild",sch:7,out:8,cul:7,tax:false,safe:6,coast:true,food:8,brew:7,cof:7,nl:7,div:6,dog:8,beauty:9,sunset:10,
 cuisines:["seafood","bbq","farm","brewery"],
+restaurants:[{name:"Catch",cuisine:"Seafood",rating:4.5,price:"$$$",note:"Riverfront fine dining"},{name:"Indochine",cuisine:"Thai/Vietnamese",rating:4.4,price:"$$",note:"Best Thai on the coast"},{name:"PinPoint",cuisine:"Farm-to-table",rating:4.5,price:"$$$",note:"Local sourcing showcase"},{name:"manna",cuisine:"New American",rating:4.4,price:"$$$",note:"Inventive tasting menus"},{name:"The Basics",cuisine:"Southern Diner",rating:4.3,price:"$",note:"No-frills shrimp & grits"},{name:"Waterman's Brewing",cuisine:"Brewpub",rating:4.3,price:"$$",note:"Beach brews & fish tacos"}],
 vibes:["Beach Town","Hollywood East","Riverwalk Dining","Surf Culture","Affordable Coast"],
 exp:[{e:"🏖️",n:"Wrightsville Beach day",t:"Outdoor"},{e:"🚶",n:"Riverwalk dining stroll",t:"Food"},{e:"🏄",n:"Surf at Wrightsville",t:"Outdoor"},{e:"🎬",n:"Screen Gems studio tour",t:"Culture"},{e:"🦀",n:"Fresh catch seafood feast",t:"Food"},{e:"🌅",n:"Kure Beach sunset",t:"Nature"}],
 img:"https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=800&h=600&fit=crop",
@@ -590,6 +668,7 @@ nearby:[
 
 "Charleston, SC":{lat:32.78,lon:-79.93,sub:"Charleston",st:"South Carolina",mp:"$485,000",mpn:485000,col:108,rent:"$1,750",rentn:1750,util:"$230–290",groc:"$410",pop:"155K",unemp:"3.2%",sal:"$58,000",ind:"Tourism, Military, Healthcare, Tech",ws:42,clim:"mild",sch:7,out:8,cul:9,tax:false,safe:7,coast:true,food:9,brew:8,cof:8,nl:8,div:7,dog:8,beauty:9,sunset:10,
 cuisines:["seafood","bbq","farm","brewery"],
+restaurants:[{name:"Husk",cuisine:"Southern",rating:4.7,price:"$$$",note:"Sean Brock's Lowcountry icon"},{name:"FIG",cuisine:"Farm-to-table",rating:4.6,price:"$$$",note:"Seasonally driven, James Beard winner"},{name:"Lewis Barbecue",cuisine:"BBQ",rating:4.6,price:"$$",note:"TX-style brisket in SC"},{name:"167 Raw",cuisine:"Oyster Bar",rating:4.5,price:"$$",note:"New England-style raw bar"},{name:"Rodney Scott's BBQ",cuisine:"BBQ",rating:4.7,price:"$$",note:"James Beard whole-hog master"},{name:"The Ordinary",cuisine:"Seafood",rating:4.5,price:"$$$",note:"Oyster hall in a former bank"}],
 vibes:["Historic Charm","Coastal Foodie","Lowcountry Living","Walkable Downtown","Southern Elegance"],
 exp:[{e:"🏛️",n:"Rainbow Row & Battery Walk",t:"Historic"},{e:"🌊",n:"Folly Beach surfing",t:"Outdoor"},{e:"🍤",n:"Husk Restaurant experience",t:"Food"},{e:"🌿",n:"Angel Oak Tree visit",t:"Nature"},{e:"🎭",n:"Spoleto Festival USA",t:"Culture"},{e:"🚤",n:"Harbor sunset cruise",t:"Experience"}],
 img:"https://images.unsplash.com/photo-1587907680753-5b38e42e0a10?w=800&h=600&fit=crop",
@@ -608,6 +687,7 @@ nearby:[
 
 "Chattanooga, TN":{lat:35.05,lon:-85.31,sub:"Chattanooga",st:"Tennessee",mp:"$310,000",mpn:310000,col:89,rent:"$1,200",rentn:1200,util:"$200–260",groc:"$380",pop:"185K",unemp:"3.5%",sal:"$52,000",ind:"Manufacturing, Insurance, Healthcare, Tech",ws:34,clim:"four seasons",sch:7,out:9,cul:7,tax:true,safe:6,coast:false,food:8,brew:8,cof:7,nl:7,div:6,dog:8,beauty:9,sunset:9,
 cuisines:["bbq","farm","brewery"],
+restaurants:[{name:"St. John's Restaurant",cuisine:"Southern Fine",rating:4.5,price:"$$$",note:"Chef Daniel Lindley's gem"},{name:"Champy's Chicken",cuisine:"Fried Chicken",rating:4.4,price:"$",note:"Famous hot chicken & sides"},{name:"Public House",cuisine:"Gastropub",rating:4.3,price:"$$",note:"Craft cocktails & elevated pub fare"},{name:"Main Street Meats",cuisine:"Butcher/BBQ",rating:4.4,price:"$$",note:"Whole-animal butcher shop & café"},{name:"STIR",cuisine:"Southern",rating:4.3,price:"$$",note:"Creative Southern in Chattanooga Choo Choo"},{name:"Clumpies Ice Cream",cuisine:"Dessert",rating:4.6,price:"$",note:"Small-batch, Northshore favorite"}],
 vibes:["Outdoorsy","Affordable","Revitalized","Mountain Town","Gig City"],
 exp:[{e:"🏔️",n:"Lookout Mountain summit",t:"Outdoor"},{e:"🚂",n:"Incline Railway ride",t:"Experience"},{e:"💎",n:"Ruby Falls underground waterfall",t:"Nature"},{e:"🌉",n:"Walnut St Pedestrian Bridge",t:"Culture"},{e:"🎨",n:"Bluff View Art District",t:"Culture"},{e:"🚴",n:"Riverwalk trail cycling",t:"Outdoor"}],
 img:"https://images.unsplash.com/photo-1608977726109-3752e63dcf30?w=800&h=600&fit=crop",
@@ -625,6 +705,7 @@ nearby:[
 
 "Atlanta, GA":{lat:33.75,lon:-84.39,sub:"Atlanta",st:"Georgia",mp:"$420,000",mpn:420000,col:107,rent:"$1,700",rentn:1700,util:"$220–280",groc:"$410",pop:"510K",unemp:"3.4%",sal:"$65,000",ind:"Tech, Film, Finance, Healthcare",ws:48,clim:"mild",sch:6,out:8,cul:9,tax:false,safe:6,coast:false,food:9,brew:8,cof:8,nl:9,div:9,dog:8,beauty:7,sunset:8,
 cuisines:["bbq","asian","farm","coffee","brewery"],
+restaurants:[{name:"Fox Bros. Bar-B-Q",cuisine:"BBQ",rating:4.6,price:"$$",note:"Texas-style BBQ in ATL"},{name:"Staplehouse",cuisine:"New American",rating:4.7,price:"$$$",note:"Non-profit fine dining, James Beard"},{name:"Buford Highway Farmers Market",cuisine:"International",rating:4.5,price:"$",note:"Global food hall experience"},{name:"Ponce City Market",cuisine:"Food Hall",rating:4.4,price:"$$",note:"BeltLine food destination"},{name:"Mary Mac's Tea Room",cuisine:"Southern",rating:4.3,price:"$$",note:"Atlanta institution since 1945"},{name:"Gunshow",cuisine:"Creative",rating:4.5,price:"$$$",note:"Dim-sum-style chef presentations"}],
 vibes:["Diverse Metropolis","Film Capital","BeltLine Culture","Foodie Hub","Booming Tech"],
 exp:[{e:"🏞️",n:"BeltLine Trail & art walk",t:"Outdoor"},{e:"🐼",n:"Zoo Atlanta pandas",t:"Family"},{e:"🍑",n:"Ponce City Market food hall",t:"Food"},{e:"🏛️",n:"MLK Jr. Historic Site",t:"Culture"},{e:"🎨",n:"High Museum of Art",t:"Culture"},{e:"🍗",n:"Mary Mac's Tea Room",t:"Food"}],
 img:"https://images.unsplash.com/photo-1575917649444-73041709297b?w=800&h=600&fit=crop",
@@ -643,55 +724,76 @@ nearby:[
 ]}
 };
 
-/* === SCORING ENGINE === */
+/* === SCORING ENGINE — 6-Pillar QoL Index === */
 function scoreCity(c, p) {
-  let w={aff:.15,clim:.10,sch:.04,safe:.07,walk:.07,out:.07,cul:.06,tax:.05,ind:.08,col:.08,food:.08,coast:.04,beauty:.04,nl:.04,div:.03};
-  if(p.youngKids){w.sch+=.10;w.safe+=.07}
-  if(p.lowCrime)w.safe+=.08;
-  if(p.life.includes('walkable'))w.walk+=.08;
-  if(p.life.includes('outdoor'))w.out+=.08;
-  if(p.life.includes('lowTax'))w.tax+=.10;
-  if(p.life.includes('suburban')){w.safe+=.04;w.walk-=.03}
-  if(p.life.includes('diversity'))w.div+=.06;
-  if(p.foodPri==='critical')w.food+=.10;
-  else if(p.foodPri==='meh')w.food-=.04;
-  if(p.coastPref==='must')w.coast+=.15;
-  else if(p.coastPref==='nice')w.coast+=.06;
-  if(p.beautyImp>7)w.beauty+=.06;
-  if(p.cultures.length>1){w.cul+=.06;w.nl+=.04}
-  const tot=Object.values(w).reduce((a,b)=>a+b,0);
-  for(let k in w)w[k]/=tot;
+  let pw={affordability:.20,environment:.15,livability:.18,culture:.15,economy:.17,community:.15};
+  if(p.youngKids){pw.livability+=.08;pw.community+=.04}
+  if(p.lowCrime)pw.livability+=.06;
+  if(p.life.includes('walkable'))pw.livability+=.05;
+  if(p.life.includes('outdoor'))pw.environment+=.06;
+  if(p.life.includes('lowTax'))pw.economy+=.08;
+  if(p.life.includes('suburban'))pw.livability+=.03;
+  if(p.life.includes('diversity'))pw.community+=.05;
+  if(p.foodPri==='critical')pw.culture+=.08;
+  else if(p.foodPri==='meh')pw.culture-=.04;
+  if(p.coastPref==='must')pw.environment+=.10;
+  else if(p.coastPref==='nice')pw.environment+=.04;
+  if(p.beautyImp>7)pw.environment+=.05;
+  if(p.cultures.length>1)pw.culture+=.04;
+  const tot=Object.values(pw).reduce((a,b)=>a+b,0);
+  for(let k in pw)pw[k]/=tot;
 
-  const d={};
   const bMax={low:400000,mid:600000,high:1000000,premium:2000000,luxury:3500000,ultra:5000000,noLimit:10000000}[p.budget]||600000;
-  const r=c.mpn/bMax;
-  d.aff=r<=.7?10:r<=.9?8:r<=1?6:r<=1.2?4:r<=1.5?2:1;
-  if(p.rentBud){const rr=c.rentn/p.rentBud;d.aff=(d.aff+(rr<=.8?10:rr<=1?7:rr<=1.2?4:2))/2}
-  d.clim=c.clim===p.climate?10:4;
-  d.sch=c.sch;d.safe=c.safe;d.walk=c.ws/10;d.out=c.out;d.cul=c.cul;
-  d.tax=c.tax?9:5;
-  d.col=c.col<=95?9:c.col<=105?7:c.col<=120?5:3;
-  d.food=c.food;
-  d.coast=p.coastPref==='must'?(c.coast?10:1):p.coastPref==='nice'?(c.coast?9:5):5;
-  d.beauty=c.beauty;d.nl=c.nl;d.div=c.div;
-  d.ind=5;
-  if(p.jobSit==='remote')d.ind=7;
-  else if(p.industry){const ui=p.industry.toLowerCase();d.ind=c.ind.toLowerCase().includes(ui)?10:ui.split(/[\s,]+/).some(x=>c.ind.toLowerCase().includes(x))?8:4}
-  if(p.cuisines.length){const m=p.cuisines.filter(x=>c.cuisines.includes(x)).length;d.food=Math.min(10,d.food+m*.5)}
+  const priceRatio=c.mpn/bMax;
+  let affHome=priceRatio<=.6?100:priceRatio<=.8?85:priceRatio<=1?70:priceRatio<=1.2?50:priceRatio<=1.5?30:15;
+  let affRent=70;if(p.rentBud){const rr=c.rentn/p.rentBud;affRent=rr<=.7?100:rr<=.9?80:rr<=1?65:rr<=1.2?45:25;}
+  let affCol=c.col<=90?95:c.col<=100?80:c.col<=110?65:c.col<=125?45:30;
+  const affordability=Math.round(affHome*.45+affRent*.25+affCol*.30);
+
+  const climFit=c.clim===p.climate?100:50;
+  const coastFit=p.coastPref==='must'?(c.coast?100:15):p.coastPref==='nice'?(c.coast?90:55):60;
+  const environment=Math.round(climFit*.30+c.beauty*10*.25+coastFit*.20+(c.sunset||5)*10*.10+c.out*10*.15);
+
+  const livability=Math.round(c.ws/100*100*.30+c.safe*10*.30+c.sch*10*.25+c.dog*10*.15);
+
+  let cuisineBonus=0;
+  if(p.cuisines.length)cuisineBonus=Math.min(20,p.cuisines.filter(x=>c.cuisines.includes(x)).length*5);
+  const culture=Math.round(Math.min(100,c.food*10*.30+c.cul*10*.20+c.nl*10*.15+c.brew*10*.15+c.cof*10*.10+(c.cuisines?c.cuisines.length*3:0)*.10+cuisineBonus));
+
+  let indMatch=50;
+  if(p.jobSit==='remote')indMatch=75;
+  else if(p.industry){const ui=p.industry.toLowerCase();indMatch=c.ind.toLowerCase().includes(ui)?95:40;}
+  const taxAdv=c.tax?90:50;
+  const unempScore=parseFloat(c.unemp)<=3.5?90:parseFloat(c.unemp)<=4?75:parseFloat(c.unemp)<=4.5?60:45;
+  const economy=Math.round(unempScore*.25+indMatch*.30+taxAdv*.25+(parseInt(c.sal.replace(/[^0-9]/g,''))/100000*100)*.20);
+
+  const divScore=c.div*10;
+  const nearbyScore=c.nearby?Math.min(100,c.nearby.length*14):30;
+  const eventScore=c.events?Math.min(100,c.events.length*22):30;
+  const community=Math.round(divScore*.35+nearbyScore*.25+eventScore*.25+50*.15);
+
+  const pillars={affordability,environment,livability,culture,economy,community};
+
   let pen=0;
   if(p.avoid){const a=p.avoid.toLowerCase();
-    if(a.includes('heat')&&c.clim==='hot')pen+=20;
+    if(a.includes('heat')&&c.clim==='hot')pen+=18;
     if(a.includes('humidity')&&c.clim==='mild')pen+=10;
-    if(a.includes('cold')&&(c.clim==='cool'||c.clim==='four seasons'))pen+=15;
-    if(a.includes('crime')&&c.safe<6)pen+=15;
-    if(a.includes('expensive')&&c.col>110)pen+=15;
+    if(a.includes('cold')&&(c.clim==='cool'||c.clim==='four seasons'))pen+=14;
+    if(a.includes('crime')&&c.safe<6)pen+=14;
+    if(a.includes('expensive')&&c.col>110)pen+=14;
     if(a.includes('sprawl')&&c.ws<35)pen+=10;
   }
-  let sc=0;for(let k in d)sc+=(d[k]/10)*(w[k]||0);
-  sc=Math.max(0,Math.min(100,Math.round(sc*100)-pen));
-  const labs={aff:'affordability',clim:'climate fit',sch:'schools',safe:'safety',walk:'walkability',out:'outdoor',cul:'culture',tax:'tax advantage',col:'cost of living',ind:'job market',food:'food scene',coast:'coastal',beauty:'natural beauty',nl:'nightlife',div:'diversity'};
-  const strengths=Object.entries(d).sort((a,b)=>b[1]-a[1]).slice(0,4).filter(([,v])=>v>=7).map(([k])=>labs[k]);
-  return{score:sc,strengths,dims:d};
+  let qol=Math.round(pw.affordability*pillars.affordability+pw.environment*pillars.environment+pw.livability*pillars.livability+pw.culture*pillars.culture+pw.economy*pillars.economy+pw.community*pillars.community);
+  qol=Math.max(0,Math.min(100,qol-pen));
+
+  const pillarLabels={affordability:'Affordability',environment:'Environment',livability:'Livability',culture:'Culture & Food',economy:'Economy',community:'Community'};
+  const strengths=Object.entries(pillars).sort((a,b)=>b[1]-a[1]).slice(0,3).filter(([,v])=>v>=60).map(([k])=>pillarLabels[k]);
+
+  const costTrend=c.col>105?'Rising':c.col<95?'Cooling':'Stable';
+  const growthSignal=(c.nearby?c.nearby.length:0)>5?'Growing':'Steady';
+  const sentTrend='Awaiting data';
+
+  return{score:qol,pillars,strengths,costTrend,growthSignal,sentTrend,dims:pillars};
 }
 
 /* === DEFAULT/FORM PREFS === */
@@ -775,12 +877,13 @@ function buildCard(r,i){
 
   const expHTML=c.exp.map(e=>`<div class="exp-c"><div class="ee">${e.e}</div><div class="en">${e.n}</div><div class="et">${e.t}</div></div>`).join('');
 
-  const bars=[
-    {l:'Food',v:c.food,cl:'#f59e0b'},{l:'Outdoor',v:c.out,cl:'#10b981'},
-    {l:'Culture',v:c.cul,cl:'#6366f1'},{l:'Safety',v:c.safe,cl:'#0ea5e9'},
-    {l:'Walk',v:c.ws/10,cl:'#ec4899'},{l:'Beauty',v:c.beauty,cl:'#14b8a6'}
+  const pils=r.pillars;
+  const pillarBars=[
+    {l:'Afford',v:pils.affordability,cl:'#10b981'},{l:'Environ',v:pils.environment,cl:'#0ea5e9'},
+    {l:'Livable',v:pils.livability,cl:'#6366f1'},{l:'Culture',v:pils.culture,cl:'#f59e0b'},
+    {l:'Economy',v:pils.economy,cl:'#ec4899'},{l:'Community',v:pils.community,cl:'#14b8a6'}
   ];
-  const barsHTML=bars.map(b=>`<div class="bar"><span class="bl">${b.l}</span><div class="bt"><div class="bf" style="width:${b.v*10}%;background:${b.cl}"></div></div><span class="bv">${b.v}</span></div>`).join('');
+  const barsHTML=pillarBars.map(b=>`<div class="bar"><span class="bl">${b.l}</span><div class="bt"><div class="bf" style="width:${b.v}%;background:${b.cl}"></div></div><span class="bv">${b.v}</span></div>`).join('');
 
   // Nearby towns chips
   const nearbyHTML=c.nearby?`
@@ -792,7 +895,7 @@ function buildCard(r,i){
     </div>`:'';
 
   return`
-    <div class="card-hero" style="background-image:url('${c.img}')">
+    <div class="card-hero" style="background-image:url('${c.img}');cursor:pointer" onclick="openDetail('${r.name}')">
       <div class="card-badges">${badges}</div>
       <div class="hero-ov">
         <div><div class="cname">${r.name}</div><div class="csub">${c.pop} · ${c.ind.split(',')[0].trim()}</div></div>
@@ -1112,6 +1215,90 @@ function applyWizard(){
   },2000);
 }
 
+/* === DETAIL OVERLAY === */
+function buildRadarChart(pillars,labels,colors){
+  const keys=Object.keys(pillars),n=keys.length,cx=150,cy=150,R=120,as=2*Math.PI/n;
+  let grid='';
+  [.25,.5,.75,1].forEach(s=>{const pts=[];for(let i=0;i<n;i++){const a=i*as-Math.PI/2;pts.push(`${cx+R*s*Math.cos(a)},${cy+R*s*Math.sin(a)}`);}grid+=`<polygon points="${pts.join(' ')}" fill="none" stroke="#e5e7eb" stroke-width="1"/>`;});
+  let axes='';for(let i=0;i<n;i++){const a=i*as-Math.PI/2;axes+=`<line x1="${cx}" y1="${cy}" x2="${cx+R*Math.cos(a)}" y2="${cy+R*Math.sin(a)}" stroke="#e5e7eb" stroke-width="1"/>`;}
+  const pts=[];for(let i=0;i<n;i++){const a=i*as-Math.PI/2,v=pillars[keys[i]]/100;pts.push(`${cx+R*v*Math.cos(a)},${cy+R*v*Math.sin(a)}`);}
+  let lbls='',dots='';
+  for(let i=0;i<n;i++){const a=i*as-Math.PI/2,v=pillars[keys[i]]/100,lx=cx+(R+28)*Math.cos(a),ly=cy+(R+28)*Math.sin(a),anchor=Math.abs(lx-cx)<10?'middle':lx>cx?'start':'end';
+    lbls+=`<text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle" fill="${colors[keys[i]]}" font-size="11" font-weight="700">${labels[keys[i]]} (${pillars[keys[i]]})</text>`;
+    dots+=`<circle cx="${cx+R*v*Math.cos(a)}" cy="${cy+R*v*Math.sin(a)}" r="4" fill="${colors[keys[i]]}"/>`;
+  }
+  return`<svg viewBox="0 0 300 300" width="300" height="300">${grid}${axes}<polygon points="${pts.join(' ')}" fill="rgba(13,148,136,.15)" stroke="var(--brand)" stroke-width="2"/>${dots}${lbls}</svg>`;
+}
+
+async function fetchForecast(lat,lon){
+  try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=auto`);
+    const d=await r.json(),el=document.getElementById('detailWxForecast');if(!el)return;
+    const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    el.innerHTML=d.daily.time.slice(0,7).map((t,i)=>{const dt=new Date(t+'T12:00:00'),day=days[dt.getDay()],icon=wxTxt(d.daily.weathercode[i]).split(' ')[0];
+      return`<div class="wx-day"><div class="wd">${day}</div><div class="wi">${icon}</div><div class="wh">${Math.round(d.daily.temperature_2m_max[i])}°</div><div class="wl">${Math.round(d.daily.temperature_2m_min[i])}°</div></div>`;}).join('');
+  }catch{const el=document.getElementById('detailWxForecast');if(el)el.innerHTML='<div style="color:var(--g400);font-size:.82rem">Forecast unavailable</div>';}
+}
+
+let carouselInterval=null,carouselPos=0;
+function carouselMove(dir){const track=document.getElementById('restTrack');if(!track)return;const cards=track.children.length,cardW=232,maxPos=Math.max(0,cards-3);carouselPos=Math.max(0,Math.min(maxPos,carouselPos+dir));track.style.transform=`translateX(-${carouselPos*cardW}px)`;}
+function startCarousel(){carouselPos=0;stopCarousel();carouselInterval=setInterval(()=>{const track=document.getElementById('restTrack');if(!track)return;const maxPos=Math.max(0,track.children.length-3);carouselPos=(carouselPos+1)%(maxPos+1);track.style.transform=`translateX(-${carouselPos*232}px)`;},4000);}
+function stopCarousel(){if(carouselInterval){clearInterval(carouselInterval);carouselInterval=null;}}
+
+async function loadDetailSentiment(city){
+  const el=document.getElementById('detailSent');if(!el)return;
+  try{const resp=await fetch(`https://www.reddit.com/r/${city.sub}/new.json?limit=30`,{headers:{'Accept':'application/json'}});
+    if(!resp.ok)throw 0;const data=await resp.json();
+    const posts=data.data.children.map(c=>({title:c.data.title,url:`https://reddit.com${c.data.permalink}`,s:sent(c.data.title)})).slice(0,15);
+    const tot=posts.length||1,pp=Math.round(posts.filter(p=>p.s==='positive').length/tot*100),np=Math.round(posts.filter(p=>p.s==='negative').length/tot*100),nu=100-pp-np;
+    const vibe=pp>50?'Positive':np>40?'Negative':pp>np+10?'Leaning Positive':'Neutral';
+    const vc=vibe.includes('Pos')?'stag-pos':vibe.includes('Neg')?'stag-neg':'stag-neu';
+    el.innerHTML=`<div style="min-width:80px;text-align:center"><span class="stag ${vc}" style="font-size:.82rem">${vibe}</span></div><div class="sg-bar"><div class="sg-pos" style="width:${pp}%"></div><div class="sg-neu" style="width:${nu}%"></div><div class="sg-neg" style="width:${np}%"></div></div><div style="font-size:.72rem;color:var(--g400);min-width:80px;text-align:right">${pp}% pos · ${np}% neg</div>`;
+  }catch{el.innerHTML='<div style="color:var(--g400);font-size:.82rem">Sentiment unavailable (CORS)</div>';}
+}
+
+function openDetail(cityName){
+  const r=scored.find(s=>s.name===cityName);if(!r)return;
+  const c=r.city,p=r.pillars;
+  const sc=r.score>=75?'#10b981':r.score>=55?'#f59e0b':'#ef4444';
+  const circ=2*Math.PI*38,off=circ-(r.score/100)*circ;
+  const pillarColors={affordability:'#10b981',environment:'#0ea5e9',livability:'#6366f1',culture:'#f59e0b',economy:'#ec4899',community:'#14b8a6'};
+  const pillarLabels={affordability:'Affordability',environment:'Environment',livability:'Livability',culture:'Culture & Food',economy:'Economy',community:'Community'};
+  const pillarBarsHTML=Object.entries(p).map(([k,v])=>`<div class="detail-pillar-bar"><div class="dp-label">${pillarLabels[k]}</div><div class="dp-val" style="color:${pillarColors[k]}">${v}</div><div class="dp-track"><div class="dp-fill" style="width:${v}%;background:${pillarColors[k]}"></div></div></div>`).join('');
+  const radarSVG=buildRadarChart(p,pillarLabels,pillarColors);
+  const rests=c.restaurants||[];
+  const restHTML=rests.map(r=>`<div class="rest-card"><div class="rn">${r.name}</div><div class="rc">${r.cuisine} · ${r.price}</div><div class="rr">${'★'.repeat(Math.floor(r.rating))}${'☆'.repeat(5-Math.floor(r.rating))} ${r.rating}</div><div class="rnote">${r.note}</div></div>`).join('');
+  const evtHTML=(c.events||[]).map(e=>`<div style="display:flex;gap:.75rem;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--g100)"><div style="min-width:70px;font-size:.72rem;font-weight:700;color:var(--brand)">${e.d}</div><div><div style="font-weight:700;font-size:.85rem">${e.n}</div><span class="stag stag-neu">${e.t}</span></div></div>`).join('');
+  const escapedName=cityName.replace(/'/g,"\\'");
+  const nearbyHTML=(c.nearby||[]).map(t=>`<button class="town-chip" onclick="closeDetail();setTimeout(()=>openResearch('${t.name.replace(/'/g,"\\'")}','${escapedName}',C['${escapedName}']),350)">${t.name} <span class="tc-pop">${t.pop} · ${t.dist}</span></button>`).join('');
+  const costCl=r.costTrend==='Rising'?'trend-up':r.costTrend==='Cooling'?'trend-down':'trend-stable';
+  const costArr=r.costTrend==='Rising'?'↑':r.costTrend==='Cooling'?'↓':'→';
+  const growCl=r.growthSignal==='Growing'?'trend-up':'trend-stable';
+
+  document.getElementById('detailContent').innerHTML=`
+    <div class="detail-hero" style="background-image:url('${c.img}')"><div class="detail-hero-inner"><div><h1>${cityName}</h1><div class="sub">${c.pop} · ${c.st} · ${c.ind.split(',')[0].trim()}</div></div>
+    <div class="detail-qol-ring"><svg width="90" height="90" viewBox="0 0 84 84"><circle class="rbg" cx="42" cy="42" r="38"/><circle class="rfg" cx="42" cy="42" r="38" stroke="${sc}" stroke-dasharray="${circ}" stroke-dashoffset="${off}"/></svg><div class="stxt"><span class="qn">${r.score}</span><span class="ql">QoL Score</span></div></div></div></div>
+    <div class="detail-pillars" style="margin-top:-1.5rem;position:relative;z-index:3">${pillarBarsHTML}</div>
+    <div class="detail-body">
+      <div class="detail-section"><h3>📊 QoL Breakdown</h3><div class="radar-wrap">${radarSVG}</div></div>
+      <div class="detail-section"><h3>🌤️ Live Weather & 7-Day Forecast</h3><div class="wx" id="detailWxCurrent"><span>Current:</span> <span class="wt">Loading...</span></div><div class="wx-forecast" id="detailWxForecast"></div></div>
+      <div class="detail-section"><h3>🏠 Market Snapshot</h3><div class="market-grid"><div class="market-card"><div class="mk-val">${c.mp}</div><div class="mk-label">Median Home</div></div><div class="market-card"><div class="mk-val">${c.rent}</div><div class="mk-label">Avg Rent</div></div><div class="market-card"><div class="mk-val">${c.col}</div><div class="mk-label">COL Index</div></div></div></div>
+      <div class="detail-section"><h3>🍽️ Top Restaurants</h3><div class="rest-carousel" id="restCarousel"><div class="rest-track" id="restTrack">${restHTML}</div>${rests.length>3?'<div class="rest-arrows"><button class="rest-arr" onclick="carouselMove(-1)">‹</button><button class="rest-arr" onclick="carouselMove(1)">›</button></div>':''}</div></div>
+      <div class="detail-section"><h3>📅 Events & Calendar</h3>${evtHTML}</div>
+      <div class="detail-section"><h3>💬 Community Pulse</h3><div class="sent-gauge" id="detailSent"><div style="color:var(--g400);font-size:.82rem">Loading sentiment...</div></div></div>
+      <div class="detail-section"><h3>🔮 Predictive Outlook</h3><div class="pred-grid"><div class="pred-card"><div class="pt">Cost Trend</div><div class="pv ${costCl}">${costArr} ${r.costTrend}</div><div class="pd">COL ${c.col} vs 100 baseline</div></div><div class="pred-card"><div class="pt">Growth Signal</div><div class="pv ${growCl}">${r.growthSignal}</div><div class="pd">${c.nearby?c.nearby.length:0} nearby towns</div></div><div class="pred-card"><div class="pt">Sentiment</div><div class="pv trend-stable">→ ${r.sentTrend}</div><div class="pd">Accumulating data</div></div></div></div>
+      <div class="detail-section"><h3>📍 Nearby Towns</h3><div class="nearby-grid">${nearbyHTML}</div></div>
+    </div>`;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  history.replaceState(null,'',location.pathname+'#city='+encodeURIComponent(cityName));
+  fetchWx(c.lat,c.lon,document.getElementById('detailWxCurrent'));
+  fetchForecast(c.lat,c.lon);
+  loadDetailSentiment(c);
+  startCarousel();
+}
+function closeDetail(){document.getElementById('detailOverlay').classList.remove('open');document.body.style.overflow='';history.replaceState(null,'',location.pathname);stopCarousel();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('detailOverlay').classList.contains('open'))closeDetail();else closeResearch();}});
+
 /* === FILTER CHIPS === */
 document.getElementById('filterBar').addEventListener('click',e=>{
   const ch=e.target.closest('.chip');if(!ch)return;
@@ -1149,6 +1336,8 @@ if(!localStorage.getItem('nhl_wizard_done')){setTimeout(()=>openWizard(),800);}
 function applyWizardDone(){localStorage.setItem('nhl_wizard_done','1');}
 const _origApply=applyWizard;
 applyWizard=function(){_origApply();applyWizardDone();};
+// Hash routing for detail view
+if(location.hash.startsWith('#city=')){const cn=decodeURIComponent(location.hash.slice(6));setTimeout(()=>{if(C[cn])openDetail(cn);},500);}
 </script>
 </body>
 </html>
