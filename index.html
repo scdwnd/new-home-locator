@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Home Locator — AI-Guided City Comparison</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#0d9488;--brand-dark:#0f766e;--brand-darker:#115e59;--brand-light:#5eead4;--brand-bg:#f0fdfa;--brand-glow:rgba(13,148,136,.15);
+  --accent:#6366f1;--accent-bg:#eef2ff;
+  --orange:#f59e0b;--orange-bg:#fffbeb;
+  --rose:#e11d48;--rose-bg:#fff1f2;
+  --sky:#0ea5e9;--sky-bg:#f0f9ff;
+  --g50:#f9fafb;--g100:#f3f4f6;--g200:#e5e7eb;--g300:#d1d5db;--g400:#9ca3af;--g500:#6b7280;--g600:#4b5563;--g700:#374151;--g800:#1f2937;--g900:#111827;
+  --r:14px;--r-sm:10px;--r-lg:20px;--r-full:9999px;
+  --sh:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);
+  --sh-md:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);
+  --sh-lg:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);
+  --sh-xl:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1);
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--g800);background:var(--g50);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(20px) saturate(1.8);border-bottom:1px solid rgba(0,0,0,.06);padding:.6rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{display:flex;align-items:center;gap:.6rem}
+.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--brand),var(--accent));border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.9rem}
+.logo h1{font-size:1.05rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,var(--brand-dark),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo .tagline{font-size:.68rem;color:var(--g400);font-weight:500}
+
+/* HERO */
+.hero{position:relative;background:linear-gradient(135deg,#0f172a 0%,#1e293b 40%,var(--brand-darker) 100%);color:#fff;padding:3rem 2rem 2.5rem;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-inner{max-width:1400px;margin:0 auto;position:relative;z-index:1}
+.hero h2{font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin-bottom:.6rem}
+.hero h2 span{background:linear-gradient(135deg,var(--brand-light),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1rem;color:rgba(255,255,255,.7);max-width:520px;line-height:1.7}
+.hero-cta{display:flex;gap:.6rem;margin-top:1.25rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:var(--r-full);font-size:.85rem;font-weight:600;border:none;cursor:pointer;transition:all .2s var(--ease);font-family:inherit}
+.btn-brand{background:var(--brand);color:#fff}.btn-brand:hover{background:var(--brand-dark);transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2)}.btn-ghost:hover{background:rgba(255,255,255,.18)}
+
+/* FILTER BAR */
+.filter-bar{position:sticky;top:50px;z-index:90;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--g200);padding:.5rem 1.5rem;display:flex;align-items:center;gap:.5rem;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.filter-bar::-webkit-scrollbar{display:none}
+.chip{display:inline-flex;align-items:center;gap:.25rem;padding:.35rem .75rem;border-radius:var(--r-full);font-size:.75rem;font-weight:600;border:1.5px solid var(--g200);background:#fff;cursor:pointer;transition:all .15s;white-space:nowrap;color:var(--g600);user-select:none}
+.chip:hover{border-color:var(--brand);color:var(--brand)}
+.chip.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.filter-div{width:1px;height:22px;background:var(--g200);flex-shrink:0}
+.open-form-chip{display:inline-flex;align-items:center;gap:.3rem;padding:.35rem .75rem;border-radius:var(--r-full);font-size:.75rem;font-weight:700;border:1.5px solid var(--brand);background:var(--brand-bg);cursor:pointer;color:var(--brand-dark);white-space:nowrap}
+.open-form-chip:hover{background:var(--brand);color:#fff}
+
+/* MAIN */
+.main{max-width:1400px;margin:0 auto;padding:1.25rem}
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
+.results-header h3{font-size:1.05rem;font-weight:700;color:var(--g900)}
+.results-header .count{color:var(--g400);font-size:.82rem;font-weight:500}
+.sort-sel{padding:.3rem .6rem;border:1px solid var(--g200);border-radius:var(--r-sm);font-size:.78rem;font-family:inherit;color:var(--g600);background:#fff}
+
+/* CITY GRID */
+.city-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem}
+@media(max-width:400px){.city-grid{grid-template-columns:1fr}}
+.city-card{background:#fff;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--g200);transition:all .3s var(--ease)}
+.city-card:hover{box-shadow:var(--sh-xl);transform:translateY(-3px)}
+.card-hero{position:relative;height:190px;background-size:cover;background-position:center;overflow:hidden}
+.card-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(transparent,rgba(0,0,0,.65))}
+.hero-ov{position:absolute;bottom:0;left:0;right:0;padding:.85rem 1.1rem;z-index:2;display:flex;align-items:flex-end;justify-content:space-between}
+.hero-ov .cname{color:#fff;font-size:1.2rem;font-weight:800;letter-spacing:-.02em;text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.hero-ov .csub{color:rgba(255,255,255,.7);font-size:.75rem;font-weight:500}
+.card-badges{position:absolute;top:.65rem;left:.65rem;z-index:3;display:flex;gap:.3rem;flex-wrap:wrap}
+.badge{padding:.18rem .55rem;border-radius:var(--r-full);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;backdrop-filter:blur(8px)}
+.badge-rank{background:rgba(0,0,0,.6);color:#fff}
+.badge-coastal{background:rgba(14,165,233,.85);color:#fff}
+.badge-foodie{background:rgba(245,158,11,.85);color:#fff}
+.score-ring{position:relative;width:48px;height:48px;flex-shrink:0}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring .rbg{fill:none;stroke:rgba(255,255,255,.2);stroke-width:4}
+.score-ring .rfg{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .8s var(--ease)}
+.score-ring .stxt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff}
+
+/* CARD BODY */
+.card-body{padding:1.1rem}
+.card-fit{font-size:.82rem;color:var(--g600);line-height:1.6;margin-bottom:.75rem}
+.vibe-row{display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:.65rem}
+.vibe{font-size:.64rem;font-weight:600;padding:.18rem .5rem;border-radius:var(--r-full);background:var(--g100);color:var(--g600)}
+.vibe.vf{background:var(--orange-bg);color:#92400e}.vibe.vn{background:#ecfdf5;color:#065f46}
+.vibe.vc{background:var(--accent-bg);color:#3730a3}.vibe.vs{background:var(--sky-bg);color:#0c4a6e}
+
+/* EXPERIENCES */
+.exp-sect{margin-bottom:.75rem}
+.exp-lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--g400);margin-bottom:.4rem}
+.exp-scroll{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.3rem;scroll-snap-type:x mandatory}
+.exp-scroll::-webkit-scrollbar{height:2px}.exp-scroll::-webkit-scrollbar-thumb{background:var(--g200);border-radius:2px}
+.exp-c{flex-shrink:0;width:120px;scroll-snap-align:start;background:var(--g50);border:1px solid var(--g100);border-radius:var(--r-sm);padding:.55rem;transition:all .2s}
+.exp-c:hover{border-color:var(--brand);background:var(--brand-bg)}
+.exp-c .ee{font-size:1.2rem;margin-bottom:.2rem}.exp-c .en{font-size:.7rem;font-weight:600;color:var(--g700);line-height:1.3}
+.exp-c .et{font-size:.6rem;color:var(--g400);margin-top:.1rem}
+
+/* METRICS */
+.met-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.35rem;margin-bottom:.65rem}
+.met{text-align:center;padding:.4rem .2rem;background:var(--g50);border-radius:var(--r-sm)}
+.met .mv{font-size:.82rem;font-weight:700;color:var(--g800)}.met .ml{font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--g400);margin-top:.08rem}
+
+/* BARS */
+.bar{display:flex;align-items:center;gap:.4rem;margin-bottom:.3rem}
+.bar .bl{font-size:.67rem;font-weight:600;color:var(--g500);width:60px;flex-shrink:0;text-align:right}
+.bar .bt{flex:1;height:6px;background:var(--g100);border-radius:3px;overflow:hidden}
+.bar .bf{height:100%;border-radius:3px;transition:width .6s var(--ease)}
+.bar .bv{font-size:.65rem;font-weight:700;color:var(--g600);width:24px;text-align:right}
+
+/* WEATHER */
+.wx{display:flex;align-items:center;gap:.4rem;padding:.45rem .65rem;background:linear-gradient(135deg,var(--sky-bg),#e0f2fe);border-radius:var(--r-sm);margin:.6rem 0;font-size:.78rem;color:var(--g600)}
+.wx .wt{font-weight:800;color:var(--sky);font-size:.88rem}
+
+/* NEARBY TOWNS — the key new feature */
+.nearby-sect{margin-top:.75rem;padding-top:.65rem;border-top:1px solid var(--g100)}
+.nearby-lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--brand);margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem}
+.nearby-grid{display:flex;flex-wrap:wrap;gap:.35rem}
+.town-chip{display:inline-flex;align-items:center;gap:.25rem;padding:.3rem .65rem;border-radius:var(--r-full);font-size:.72rem;font-weight:600;border:1.5px solid var(--g200);background:#fff;cursor:pointer;transition:all .15s;color:var(--g600)}
+.town-chip:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-bg)}
+.town-chip .tc-pop{font-size:.6rem;color:var(--g400);font-weight:500}
+
+/* ACCORDION */
+.accordion{border-top:1px solid var(--g100);margin-top:.5rem}
+.acc-btn{width:100%;text-align:left;background:none;border:none;border-bottom:1px solid var(--g100);padding:.6rem 0;font-family:inherit;font-size:.78rem;font-weight:600;color:var(--g600);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color .15s}
+.acc-btn:hover{color:var(--brand)}.acc-btn .arr{transition:transform .25s;font-size:.6rem;color:var(--g300)}
+.acc-btn.open .arr{transform:rotate(180deg);color:var(--brand)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
+.acc-inner{padding:.55rem 0 .75rem;font-size:.78rem;color:var(--g600);line-height:1.65}
+.acc-inner table{width:100%;border-collapse:collapse;font-size:.76rem}
+.acc-inner th,.acc-inner td{padding:.35rem .45rem;text-align:left;border-bottom:1px solid var(--g100)}
+.acc-inner th{font-weight:700;color:var(--g700);font-size:.67rem;text-transform:uppercase;letter-spacing:.04em}
+.spinner{width:18px;height:18px;border:2.5px solid var(--g200);border-top-color:var(--brand);border-radius:50%;animation:spin .7s linear infinite;margin:1rem auto;display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hl{background:linear-gradient(135deg,#fef9c3,#fde68a);padding:.1rem .35rem;border-radius:4px;font-weight:700;font-size:.75rem}
+.stag{font-size:.65rem;font-weight:700;padding:.13rem .45rem;border-radius:var(--r-full)}
+.stag-pos{background:#d1fae5;color:#065f46}.stag-neg{background:#fee2e2;color:#991b1b}.stag-neu{background:var(--g100);color:var(--g600)}
+.post-list{list-style:none}.post-list li{padding:.3rem 0;border-bottom:1px solid var(--g50);font-size:.75rem}
+.post-list a{color:var(--brand);text-decoration:none}.post-list a:hover{text-decoration:underline}
+.ext{margin-top:.6rem;font-size:.67rem;color:var(--g300);font-style:italic}
+
+/* RESEARCH PANEL — slides in when a nearby town is clicked */
+.research-backdrop{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.45);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .3s}
+.research-backdrop.open{opacity:1;pointer-events:auto}
+.research-panel{position:fixed;top:0;right:0;z-index:501;width:min(480px,100vw);height:100vh;background:#fff;transform:translateX(100%);transition:transform .35s var(--ease);overflow-y:auto;box-shadow:-8px 0 30px rgba(0,0,0,.12)}
+.research-panel.open{transform:translateX(0)}
+.rp-header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);padding:1rem 1.25rem;border-bottom:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between}
+.rp-header h2{font-size:1.05rem;font-weight:800;color:var(--g900)}
+.rp-close{width:32px;height:32px;border-radius:var(--r-sm);border:1px solid var(--g200);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--g500)}
+.rp-close:hover{background:var(--g100)}
+.rp-body{padding:1.25rem}
+.rp-status{display:flex;align-items:center;gap:.5rem;padding:.65rem .85rem;background:var(--brand-bg);border:1px solid var(--brand-light);border-radius:var(--r-sm);margin-bottom:1rem;font-size:.82rem;font-weight:600;color:var(--brand-dark)}
+.rp-status .spinner{margin:0;width:16px;height:16px;border-width:2px}
+.rp-section{margin-bottom:1.25rem}
+.rp-section h4{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--brand);margin-bottom:.5rem}
+.rp-metric{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid var(--g100);font-size:.82rem}
+.rp-metric .rml{color:var(--g500)}.rp-metric .rmv{font-weight:700;color:var(--g800)}
+.rp-placeholder{padding:1.5rem;text-align:center;background:var(--g50);border:2px dashed var(--g200);border-radius:var(--r);color:var(--g400);font-size:.82rem}
+.rp-placeholder strong{color:var(--g600);display:block;margin-bottom:.25rem}
+.rp-compare{margin-top:1rem;padding:.85rem;background:linear-gradient(135deg,var(--accent-bg),#f5f3ff);border:1px solid #c7d2fe;border-radius:var(--r);font-size:.82rem;color:var(--g700)}
+.rp-compare strong{color:var(--accent)}
+
+/* MODAL FORM */
+.modal-bk{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-bk.open{opacity:1;pointer-events:auto}
+.modal{position:fixed;top:0;right:0;z-index:401;width:min(500px,100vw);height:100vh;background:#fff;transform:translateX(100%);transition:transform .4s var(--ease);overflow-y:auto;box-shadow:-10px 0 40px rgba(0,0,0,.15)}
+.modal.open{transform:translateX(0)}
+.modal-hdr{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);padding:1rem 1.25rem;border-bottom:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between}
+.modal-hdr h2{font-size:1.05rem;font-weight:800}.modal-x{width:32px;height:32px;border-radius:var(--r-sm);border:1px solid var(--g200);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--g500)}
+.modal-x:hover{background:var(--g100)}
+.modal-body{padding:1.25rem}
+.fs{margin-bottom:1.5rem}
+.fs-t{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--brand);margin-bottom:.7rem;display:flex;align-items:center;gap:.35rem}
+.fld{margin-bottom:1rem}
+.fld .fl{display:block;font-weight:600;font-size:.78rem;color:var(--g700);margin-bottom:.3rem}
+.fld select,.fld input[type="text"],.fld textarea{width:100%;padding:.55rem .75rem;border:1.5px solid var(--g200);border-radius:var(--r-sm);font-size:.85rem;font-family:inherit;color:var(--g800);background:#fff;transition:all .2s}
+.fld select:focus,.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow)}
+.fld textarea{resize:vertical;min-height:55px}
+.fr{display:flex;gap:.65rem}
+.fr .fld{flex:1}
+@media(max-width:500px){.fr{flex-direction:column}}
+.pg{display:flex;flex-wrap:wrap;gap:.35rem}
+.pill{display:flex;align-items:center;gap:.25rem;padding:.35rem .65rem;border-radius:var(--r-full);font-size:.78rem;font-weight:500;border:1.5px solid var(--g200);background:#fff;cursor:pointer;transition:all .15s;user-select:none;color:var(--g600)}
+.pill:hover{border-color:var(--brand);color:var(--brand)}
+.pill input{display:none}
+.pill:has(input:checked){background:var(--brand);color:#fff;border-color:var(--brand)}
+.pill .pe{font-size:.9rem}
+.rd{display:flex;align-items:center;gap:.65rem;margin-top:.35rem}
+.rd input[type="range"]{flex:1;accent-color:var(--brand)}
+.rd .rv{font-size:.82rem;font-weight:700;color:var(--brand);min-width:45px;text-align:right}
+.form-go{width:100%;padding:.75rem;background:linear-gradient(135deg,var(--brand),var(--accent));color:#fff;font-size:.9rem;font-weight:700;border:none;border-radius:var(--r);cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(13,148,136,.3)}
+.form-go:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(13,148,136,.4)}
+
+/* LOADER */
+.loader-ov{position:fixed;inset:0;z-index:600;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;flex-direction:column}
+.loader-ov.on{display:flex}
+.loader-orb{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--accent));animation:pulse 1.2s ease-in-out infinite alternate;margin-bottom:1.25rem}
+@keyframes pulse{from{transform:scale(1);opacity:.7}to{transform:scale(1.15);opacity:1}}
+.loader-ov h3{font-size:1rem;font-weight:700;color:var(--g800)}.loader-ov p{font-size:.82rem;color:var(--g400)}
+.ls{margin-top:1rem;display:flex;flex-direction:column;gap:.35rem}
+.ls-step{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--g400);transition:color .3s}
+.ls-step.on{color:var(--brand);font-weight:600}.ls-step.done{color:var(--g300)}
+.ls-dot{width:7px;height:7px;border-radius:50%;background:var(--g200);transition:all .3s}
+.ls-step.on .ls-dot{background:var(--brand);box-shadow:0 0 8px var(--brand-glow)}
+
+/* COMPARE TABLE */
+.cmp-sect{margin-top:1.75rem;padding-top:1.25rem;border-top:2px solid var(--g200)}
+.cmp-sect h3{font-size:1rem;font-weight:800;color:var(--g900);margin-bottom:.85rem}
+.cmp-tbl{width:100%;border-collapse:separate;border-spacing:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--g200);font-size:.78rem}
+.cmp-tbl th{background:var(--g800);color:#fff;padding:.5rem .65rem;font-size:.67rem;text-transform:uppercase;letter-spacing:.04em;font-weight:700;text-align:left}
+.cmp-tbl td{padding:.45rem .65rem;border-bottom:1px solid var(--g100);color:var(--g600)}
+.cmp-tbl tr:nth-child(even) td{background:var(--g50)}
+
+/* FOOTER */
+.site-footer{text-align:center;padding:2rem 1rem;color:var(--g400);font-size:.72rem;border-top:1px solid var(--g100);margin-top:1.5rem}
+
+/* ANIMATION */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fadeUp .45s var(--ease) both}
+.city-card:nth-child(2){animation-delay:.06s}.city-card:nth-child(3){animation-delay:.12s}
+.city-card:nth-child(4){animation-delay:.18s}.city-card:nth-child(5){animation-delay:.24s}
+@media(max-width:768px){.city-grid{grid-template-columns:1fr}}
+
+/* WIZARD POPUP */
+.wiz-bk{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s;display:flex;align-items:center;justify-content:center}
+.wiz-bk.open{opacity:1;pointer-events:auto}
+.wiz{background:#fff;border-radius:16px;width:min(540px,92vw);max-height:88vh;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.25);transform:scale(.92) translateY(20px);transition:transform .35s var(--ease);display:flex;flex-direction:column}
+.wiz-bk.open .wiz{transform:scale(1) translateY(0)}
+.wiz-top{padding:1.5rem 1.75rem 1rem;border-bottom:1px solid var(--g100)}
+.wiz-top h2{font-size:1.15rem;font-weight:800;color:var(--g900);margin-bottom:.15rem}
+.wiz-top p{font-size:.82rem;color:var(--g400)}
+.wiz-steps{display:flex;gap:.5rem;margin-top:1rem}
+.wiz-dot{flex:1;height:4px;border-radius:4px;background:var(--g200);transition:background .3s}
+.wiz-dot.done{background:var(--brand)}.wiz-dot.active{background:var(--accent)}
+.wiz-body{padding:1.5rem 1.75rem;overflow-y:auto;flex:1;min-height:200px}
+.wiz-q{font-size:.95rem;font-weight:700;color:var(--g800);margin-bottom:1rem}
+.wiz-opts{display:flex;flex-wrap:wrap;gap:.5rem}
+.wiz-opt{padding:.65rem 1rem;border:2px solid var(--g200);border-radius:var(--r);font-size:.85rem;font-weight:500;color:var(--g600);cursor:pointer;transition:all .15s;background:#fff;text-align:center;min-width:90px}
+.wiz-opt:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-bg)}
+.wiz-opt.sel{border-color:var(--brand);background:var(--brand);color:#fff}
+.wiz-opt .wo-icon{font-size:1.3rem;display:block;margin-bottom:.25rem}
+.wiz-opt .wo-sub{font-size:.7rem;color:var(--g400);margin-top:.15rem;font-weight:400}
+.wiz-opt.sel .wo-sub{color:rgba(255,255,255,.75)}
+.wiz-multi-hint{font-size:.72rem;color:var(--g400);margin-bottom:.75rem;font-style:italic}
+.wiz-foot{padding:1rem 1.75rem;border-top:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
+.wiz-skip{font-size:.82rem;color:var(--g400);background:none;border:none;cursor:pointer;padding:.4rem .6rem;border-radius:var(--r-sm)}
+.wiz-skip:hover{color:var(--g600);background:var(--g50)}
+.wiz-next{padding:.6rem 1.5rem;background:linear-gradient(135deg,var(--brand),var(--accent));color:#fff;font-size:.88rem;font-weight:700;border:none;border-radius:var(--r);cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(13,148,136,.25)}
+.wiz-next:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(13,148,136,.35)}
+.wiz-back{padding:.5rem 1rem;background:var(--g100);color:var(--g600);font-size:.82rem;font-weight:600;border:none;border-radius:var(--r);cursor:pointer}
+.wiz-back:hover{background:var(--g200)}
+.wiz-foot-left{display:flex;gap:.5rem;align-items:center}
+</style>
+</head>
+<body>
+
+<nav class="site-header">
+  <div class="logo">
+    <div class="logo-icon">NH</div>
+    <div><h1>New Home Locator</h1><div class="tagline">AI-guided city comparison</div></div>
+  </div>
+  <button class="btn btn-brand" onclick="openWizard()">Personalize</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h2>Find the city that <span>feels like home</span></h2>
+    <p>AI scores top cities across 15+ dimensions — then surfaces nearby suburbs and towns you can research with one click.</p>
+    <div class="hero-cta">
+      <button class="btn btn-brand" onclick="openWizard()">Personalize Results</button>
+      <a href="#grid" class="btn btn-ghost">Browse Cities</a>
+    </div>
+  </div>
+</section>
+
+<div class="filter-bar" id="filterBar">
+  <button class="chip active" data-filter="all">All</button>
+  <button class="chip" data-filter="coastal">Coastal</button>
+  <button class="chip" data-filter="hot">Warm</button>
+  <button class="chip" data-filter="cool">Cool</button>
+  <button class="chip" data-filter="foodie">Foodie</button>
+  <button class="chip" data-filter="outdoor">Outdoor</button>
+  <button class="chip" data-filter="affordable">Affordable</button>
+  <button class="chip" data-filter="walkable">Walkable</button>
+  <div class="filter-div"></div>
+  <button class="open-form-chip" onclick="toggleModal(true)">+ Deep Personalize</button>
+</div>
+
+<main class="main" id="grid">
+  <div class="results-header">
+    <div><h3 id="rTitle">Top Cities</h3><span class="count" id="rCount">10 cities — default scoring</span></div>
+    <select class="sort-sel" id="sortSel">
+      <option value="score">Best Match</option>
+      <option value="price-asc">Price: Low→High</option>
+      <option value="price-desc">Price: High→Low</option>
+      <option value="food">Food Scene</option>
+      <option value="outdoor">Outdoor</option>
+      <option value="safety">Safety</option>
+      <option value="walk">Walkability</option>
+    </select>
+  </div>
+  <div class="city-grid" id="cityGrid"></div>
+  <div class="cmp-sect"><h3>Side-by-Side Comparison</h3><div style="overflow-x:auto"><table class="cmp-tbl" id="cmpTbl"></table></div></div>
+</main>
+
+<!-- QUICK WIZARD -->
+<div class="wiz-bk" id="wizBk">
+  <div class="wiz" id="wizBox">
+    <div class="wiz-top">
+      <h2 id="wizTitle">Let's narrow it down</h2>
+      <p id="wizSub">Answer a few quick questions to personalize your results</p>
+      <div class="wiz-steps" id="wizDots"></div>
+    </div>
+    <div class="wiz-body" id="wizBody"></div>
+    <div class="wiz-foot">
+      <div class="wiz-foot-left"><button class="wiz-back" id="wizBack" onclick="wizPrev()">← Back</button><button class="wiz-skip" id="wizSkip" onclick="wizNext()">Skip</button></div>
+      <button class="wiz-next" id="wizNext" onclick="wizNext()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">New Home Locator &copy; 2026 — AI city comparison. Data: Zillow, Redfin, Numbeo, BLS, WalkScore trends.</footer>
+
+<!-- RESEARCH PANEL -->
+<div class="research-backdrop" id="rpBk" onclick="closeResearch()"></div>
+<div class="research-panel" id="rPanel">
+  <div class="rp-header"><h2 id="rpTitle">Researching...</h2><button class="rp-close" onclick="closeResearch()">&times;</button></div>
+  <div class="rp-body" id="rpBody"></div>
+</div>
+
+<!-- MODAL FORM -->
+<div class="modal-bk" id="modalBk" onclick="toggleModal(false)"></div>
+<div class="modal" id="modal">
+  <div class="modal-hdr"><h2>Deep Personalize</h2><button class="modal-x" onclick="toggleModal(false)">&times;</button></div>
+  <div class="modal-body" id="modalFormArea"></div>
+</div>
+
+<!-- LOADER -->
+<div class="loader-ov" id="loader">
+  <div class="loader-orb"></div>
+  <h3>AI analyzing preferences...</h3><p>Scoring 15+ dimensions</p>
+  <div class="ls">
+    <div class="ls-step" id="ls1"><div class="ls-dot"></div>Evaluating budget</div>
+    <div class="ls-step" id="ls2"><div class="ls-dot"></div>Matching climate</div>
+    <div class="ls-step" id="ls3"><div class="ls-dot"></div>Scoring food & experiences</div>
+    <div class="ls-step" id="ls4"><div class="ls-dot"></div>Ranking lifestyle</div>
+    <div class="ls-step" id="ls5"><div class="ls-dot"></div>Generating insights</div>
+  </div>
+</div>
+
+<script>
+/* === CITIES DATA with nearby towns === */
+const C = {
+"Austin, TX":{lat:30.27,lon:-97.74,sub:"Austin",st:"Texas",mp:"$520,000",mpn:520000,col:93,rent:"$1,900",rentn:1900,util:"$240–300",groc:"$420",pop:"985K",unemp:"3.8%",sal:"$78,000",ind:"Tech, Music, Government",ws:41,clim:"hot",sch:7,out:8,cul:9,tax:true,safe:6,coast:false,food:9,brew:9,cof:8,nl:9,div:8,dog:8,beauty:7,sunset:8,
+cuisines:["mexican","bbq","farm","coffee","brewery"],
+vibes:["Live Music Capital","Tech Hub","Foodie Paradise","Dog-Friendly","Weird & Proud"],
+exp:[{e:"🎸",n:"Live music on 6th St",t:"Nightlife"},{e:"🌮",n:"Taco crawl S. Congress",t:"Food"},{e:"🏊",n:"Barton Springs swim",t:"Outdoor"},{e:"🦇",n:"Congress Ave bats",t:"Nature"},{e:"🍖",n:"Franklin BBQ",t:"Food"},{e:"🛶",n:"Lady Bird Lake kayak",t:"Outdoor"}],
+img:"https://images.unsplash.com/photo-1531218150217-54595bc2b934?w=800&h=600&fit=crop",
+webcams:['<iframe width="100%" height="260" src="https://www.youtube.com/embed/KNN83pgbnJU" allowfullscreen></iframe>'],
+schools:[{n:"Eanes ISD",r:9,t:"Public"},{n:"Austin ISD LASA",r:9,t:"Magnet"},{n:"Round Rock ISD",r:8,t:"Public"},{n:"St. Andrew's",r:9,t:"Private"}],
+events:[{n:"SXSW",d:"Mar 2026",t:"Festival"},{n:"ACL Festival",d:"Oct 2026",t:"Music"},{n:"Trail of Lights",d:"Dec 2026",t:"Holiday"},{n:"Hot Sauce Fest",d:"Aug 2026",t:"Food"}],
+nearby:[
+  {name:"Round Rock",lat:30.51,lon:-97.68,pop:"135K",mp:"$450K",vibe:"Family-friendly suburb, Dell HQ, great schools",dist:"20 min N"},
+  {name:"Cedar Park",lat:30.51,lon:-97.82,pop:"82K",mp:"$480K",vibe:"Fast-growing, H-E-B Center events, young families",dist:"25 min NW"},
+  {name:"Pflugerville",lat:30.44,lon:-97.62,pop:"75K",mp:"$410K",vibe:"Affordable, diverse, Lake Pflugerville trails",dist:"18 min NE"},
+  {name:"Georgetown",lat:30.63,lon:-97.68,pop:"80K",mp:"$440K",vibe:"Historic downtown square, retiree-friendly, charming",dist:"30 min N"},
+  {name:"Dripping Springs",lat:30.19,lon:-98.09,pop:"7K",mp:"$650K",vibe:"Hill Country wineries, rural luxury, wedding capital",dist:"30 min SW"},
+  {name:"San Marcos",lat:29.88,lon:-97.94,pop:"68K",mp:"$350K",vibe:"College town (Texas State), tubing, outlet malls",dist:"35 min S"},
+  {name:"Lakeway",lat:30.36,lon:-97.98,pop:"20K",mp:"$750K",vibe:"Lake Travis luxury, golf, resort lifestyle",dist:"25 min W"},
+  {name:"Buda",lat:30.08,lon:-97.84,pop:"18K",mp:"$420K",vibe:"Small-town feel, outdoor lovers, wiener dog races",dist:"20 min S"}
+]},
+
+"Boise, ID":{lat:43.62,lon:-116.20,sub:"Boise",st:"Idaho",mp:"$500,000",mpn:500000,col:102,rent:"$1,600",rentn:1600,util:"$210–270",groc:"$390",pop:"245K",unemp:"3.5%",sal:"$70,000",ind:"Tech, Manufacturing, Outdoor",ws:36,clim:"four seasons",sch:8,out:10,cul:6,tax:false,safe:8,coast:false,food:6,brew:8,cof:7,nl:5,div:5,dog:9,beauty:10,sunset:9,
+cuisines:["farm","brewery"],
+vibes:["Outdoor Paradise","Mountain Town","Safe & Clean","Rising Tech","Dog Heaven"],
+exp:[{e:"⛷️",n:"Bogus Basin skiing",t:"Outdoor"},{e:"🏔️",n:"Table Rock hike",t:"Outdoor"},{e:"🍺",n:"Brewery trail",t:"Food"},{e:"🚣",n:"Boise River float",t:"Outdoor"},{e:"🌄",n:"Sawtooth road trip",t:"Adventure"},{e:"🐕",n:"Greenbelt walk",t:"Lifestyle"}],
+img:"https://images.unsplash.com/photo-1617440168937-c6497eaa8db5?w=800&h=600&fit=crop",
+webcams:['<a href="https://weatherbug.com/weather-camera/boise-id" target="_blank">Boise Cam ↗</a>'],
+schools:[{n:"Boise School Dist",r:8,t:"Public"},{n:"West Ada Dist",r:8,t:"Public"},{n:"Riverstone Intl",r:9,t:"Private"}],
+events:[{n:"Treefort Music Fest",d:"Mar 2026",t:"Music"},{n:"Spirit of Boise Balloons",d:"Sep 2026",t:"Festival"},{n:"Art in the Park",d:"Sep 2026",t:"Arts"}],
+nearby:[
+  {name:"Meridian",lat:43.61,lon:-116.39,pop:"130K",mp:"$475K",vibe:"Largest suburb, family-oriented, The Village shops",dist:"15 min W"},
+  {name:"Eagle",lat:43.70,lon:-116.35,pop:"35K",mp:"$600K",vibe:"Upscale, Eagle Island State Park, golf courses",dist:"20 min NW"},
+  {name:"Nampa",lat:43.54,lon:-116.56,pop:"110K",mp:"$400K",vibe:"Affordable, wine country, diverse community",dist:"25 min W"},
+  {name:"Kuna",lat:43.49,lon:-116.42,pop:"25K",mp:"$420K",vibe:"Rural charm, growing fast, Indian Creek trails",dist:"20 min SW"},
+  {name:"Star",lat:43.69,lon:-116.49,pop:"12K",mp:"$480K",vibe:"Small-town living, new developments, mountain views",dist:"25 min NW"},
+  {name:"Garden City",lat:43.65,lon:-116.28,pop:"14K",mp:"$440K",vibe:"Artsy enclave, breweries, Boise River access",dist:"5 min"}
+]},
+
+"Raleigh, NC":{lat:35.78,lon:-78.64,sub:"raleigh",st:"North Carolina",mp:"$460,000",mpn:460000,col:94,rent:"$1,700",rentn:1700,util:"$200–260",groc:"$400",pop:"480K",unemp:"3.7%",sal:"$75,000",ind:"Tech, Biotech, Research",ws:31,clim:"mild",sch:8,out:8,cul:7,tax:false,safe:7,coast:false,food:7,brew:8,cof:7,nl:6,div:7,dog:8,beauty:7,sunset:7,
+cuisines:["bbq","farm","brewery","coffee"],
+vibes:["Research Triangle","Southern Charm","Family-Friendly","Growing Fast","Craft Beer"],
+exp:[{e:"🍖",n:"Carolina BBQ trail",t:"Food"},{e:"🎓",n:"Duke/UNC campuses",t:"Culture"},{e:"🌳",n:"Umstead Park hike",t:"Outdoor"},{e:"🍺",n:"Downtown breweries",t:"Food"},{e:"🏛️",n:"NC Museum of Art",t:"Culture"},{e:"⛳",n:"Pinehurst golf",t:"Outdoor"}],
+img:"https://images.unsplash.com/photo-1570366404839-173099e1d372?w=800&h=600&fit=crop",
+webcams:['<a href="https://www.earthcam.com/usa/northcarolina/raleigh/" target="_blank">Raleigh Cam ↗</a>'],
+schools:[{n:"Wake County Public",r:8,t:"Public"},{n:"Raleigh Charter HS",r:9,t:"Charter"},{n:"Ravenscroft",r:9,t:"Private"}],
+events:[{n:"Hopscotch Music",d:"Sep 2026",t:"Music"},{n:"NC State Fair",d:"Oct 2026",t:"Festival"},{n:"Brewgaloo",d:"Apr 2026",t:"Food"}],
+nearby:[
+  {name:"Cary",lat:35.79,lon:-78.78,pop:"180K",mp:"$530K",vibe:"Top-rated schools, SAS HQ, diverse, very safe",dist:"15 min W"},
+  {name:"Durham",lat:35.99,lon:-78.90,pop:"310K",mp:"$420K",vibe:"Duke University, food scene, vibrant arts district",dist:"25 min NW"},
+  {name:"Chapel Hill",lat:35.91,lon:-79.05,pop:"65K",mp:"$550K",vibe:"UNC campus, college-town charm, Franklin Street",dist:"30 min W"},
+  {name:"Apex",lat:35.73,lon:-78.85,pop:"75K",mp:"$510K",vibe:"Peak of Good Living, downtown charm, top schools",dist:"20 min SW"},
+  {name:"Wake Forest",lat:35.98,lon:-78.51,pop:"55K",mp:"$480K",vibe:"Small-town feel, Falls Lake access, historic downtown",dist:"25 min N"},
+  {name:"Holly Springs",lat:35.65,lon:-78.83,pop:"45K",mp:"$490K",vibe:"New-build friendly, young families, Bass Lake Park",dist:"25 min S"},
+  {name:"Morrisville",lat:35.82,lon:-78.83,pop:"32K",mp:"$480K",vibe:"Tech corridor, diverse (large Indian community), near RTP",dist:"15 min W"}
+]},
+
+"Tucson, AZ":{lat:32.22,lon:-110.97,sub:"Tucson",st:"Arizona",mp:"$380,000",mpn:380000,col:96,rent:"$1,300",rentn:1300,util:"$220–290",groc:"$380",pop:"550K",unemp:"4.1%",sal:"$65,000",ind:"Aerospace, Education, Healthcare",ws:43,clim:"hot",sch:6,out:9,cul:6,tax:false,safe:5,coast:false,food:8,brew:6,cof:6,nl:5,div:7,dog:7,beauty:9,sunset:10,
+cuisines:["mexican","farm"],
+vibes:["Desert Beauty","UNESCO Food City","Stargazing Capital","Affordable","Sonoran Culture"],
+exp:[{e:"🌵",n:"Saguaro Natl Park",t:"Nature"},{e:"🌅",n:"Gates Pass sunset",t:"Nature"},{e:"🌮",n:"Sonoran hot dogs",t:"Food"},{e:"🔭",n:"Mt. Lemmon stargazing",t:"Adventure"},{e:"🏜️",n:"Desert Museum",t:"Nature"},{e:"🚴",n:"The Loop bike path",t:"Outdoor"}],
+img:"https://images.unsplash.com/photo-1577083165633-14ebcdb0f658?w=800&h=600&fit=crop",
+webcams:['<a href="https://www.earthcam.com/usa/arizona/tucson/" target="_blank">Tucson Cam ↗</a>'],
+schools:[{n:"Catalina Foothills USD",r:8,t:"Public"},{n:"Basis Tucson",r:9,t:"Charter"},{n:"Salpointe Catholic",r:8,t:"Private"}],
+events:[{n:"Tucson Gem Show",d:"Feb 2026",t:"Festival"},{n:"All Souls Procession",d:"Nov 2026",t:"Culture"},{n:"Festival of Books",d:"Mar 2026",t:"Education"}],
+nearby:[
+  {name:"Oro Valley",lat:32.39,lon:-110.97,pop:"48K",mp:"$480K",vibe:"Upscale, Catalina State Park, golf, very safe",dist:"20 min N"},
+  {name:"Marana",lat:32.44,lon:-111.22,pop:"55K",mp:"$400K",vibe:"Fast-growing, Dove Mountain resort, family-friendly",dist:"25 min NW"},
+  {name:"Sahuarita",lat:31.96,lon:-110.96,pop:"35K",mp:"$350K",vibe:"Affordable, pecan groves, new communities",dist:"20 min S"},
+  {name:"Vail",lat:32.05,lon:-110.72,pop:"15K",mp:"$380K",vibe:"Top-rated Vail schools, Colossal Cave, rural feel",dist:"25 min SE"},
+  {name:"Green Valley",lat:31.85,lon:-110.99,pop:"22K",mp:"$280K",vibe:"Retiree haven, Santa Cruz River, affordable luxury",dist:"30 min S"}
+]},
+
+"Denver, CO":{lat:39.74,lon:-104.99,sub:"Denver",st:"Colorado",mp:"$620,000",mpn:620000,col:108,rent:"$2,100",rentn:2100,util:"$200–260",groc:"$430",pop:"715K",unemp:"4.0%",sal:"$82,000",ind:"Tech, Energy, Aerospace",ws:61,clim:"four seasons",sch:7,out:10,cul:8,tax:false,safe:6,coast:false,food:8,brew:10,cof:9,nl:8,div:7,dog:9,beauty:10,sunset:9,
+cuisines:["farm","brewery","coffee","mexican"],
+vibes:["Mile High City","Brewery Capital","Mountain Gateway","Active Lifestyle","300 Days Sun"],
+exp:[{e:"⛷️",n:"Ski day trip",t:"Outdoor"},{e:"🍺",n:"RiNo brewery crawl",t:"Food"},{e:"🏔️",n:"Red Rocks show",t:"Culture"},{e:"🥾",n:"Rocky Mtn NP hike",t:"Outdoor"},{e:"🚴",n:"Cherry Creek trail",t:"Outdoor"},{e:"☕",n:"LoHi coffee & brunch",t:"Food"}],
+img:"https://images.unsplash.com/photo-1619856699906-09e1f4ef34b0?w=800&h=600&fit=crop",
+webcams:['<iframe width="100%" height="260" src="https://www.youtube.com/embed/Gu8vhQSf_rM" allowfullscreen></iframe>'],
+schools:[{n:"Cherry Creek Schools",r:8,t:"Public"},{n:"Denver School of Arts",r:9,t:"Magnet"},{n:"Kent Denver",r:9,t:"Private"}],
+events:[{n:"Great American Beer Fest",d:"Oct 2026",t:"Food"},{n:"Taste of Colorado",d:"Sep 2026",t:"Food"},{n:"Cherry Creek Arts",d:"Jul 2026",t:"Arts"}],
+nearby:[
+  {name:"Boulder",lat:40.01,lon:-105.27,pop:"105K",mp:"$850K",vibe:"Flatirons, Pearl Street, CU Boulder, ultra-outdoorsy",dist:"35 min NW"},
+  {name:"Lakewood",lat:39.71,lon:-105.08,pop:"160K",mp:"$530K",vibe:"Red Rocks nearby, Casa Bonita, suburban with trails",dist:"15 min W"},
+  {name:"Aurora",lat:39.73,lon:-104.83,pop:"395K",mp:"$480K",vibe:"Diverse, Buckley AFB, Cherry Creek State Park",dist:"15 min E"},
+  {name:"Littleton",lat:39.61,lon:-105.02,pop:"48K",mp:"$580K",vibe:"Historic downtown, Chatfield Reservoir, top schools",dist:"20 min S"},
+  {name:"Golden",lat:39.76,lon:-105.22,pop:"22K",mp:"$650K",vibe:"Coors Brewery, School of Mines, Clear Creek trails",dist:"20 min W"},
+  {name:"Arvada",lat:39.80,lon:-105.09,pop:"125K",mp:"$560K",vibe:"Olde Town charm, brewery scene, family-friendly",dist:"15 min NW"},
+  {name:"Castle Rock",lat:39.37,lon:-104.86,pop:"78K",mp:"$580K",vibe:"Outlet malls, mesa trails, fast-growing Douglas Co",dist:"35 min S"},
+  {name:"Highlands Ranch",lat:39.55,lon:-104.97,pop:"105K",mp:"$620K",vibe:"Master-planned, top schools, Backcountry trails",dist:"25 min S"}
+]},
+
+"Nashville, TN":{lat:36.16,lon:-86.78,sub:"nashville",st:"Tennessee",mp:"$510,000",mpn:510000,col:96,rent:"$1,900",rentn:1900,util:"$210–270",groc:"$410",pop:"690K",unemp:"3.6%",sal:"$72,000",ind:"Music, Healthcare, Tourism",ws:30,clim:"mild",sch:7,out:7,cul:9,tax:true,safe:6,coast:false,food:9,brew:8,cof:7,nl:10,div:6,dog:7,beauty:7,sunset:7,
+cuisines:["bbq","farm","brewery"],
+vibes:["Music City","Hot Chicken Capital","No Income Tax","Bachelorette Central","Healthcare Hub"],
+exp:[{e:"🎸",n:"Honky tonk crawl",t:"Nightlife"},{e:"🍗",n:"Hot chicken battle",t:"Food"},{e:"🎵",n:"Grand Ole Opry",t:"Culture"},{e:"🍖",n:"Martin's BBQ",t:"Food"},{e:"🎤",n:"Bluebird Cafe",t:"Culture"},{e:"🥃",n:"Whiskey tour",t:"Food"}],
+img:"https://images.unsplash.com/photo-1587162146766-e06b1189b907?w=800&h=600&fit=crop",
+webcams:['<a href="https://www.earthcam.com/usa/tennessee/nashville/" target="_blank">Nashville Cam ↗</a>'],
+schools:[{n:"Williamson Co Schools",r:9,t:"Public"},{n:"Hume-Fogg Academic",r:9,t:"Magnet"},{n:"MBA Nashville",r:9,t:"Private"}],
+events:[{n:"CMA Fest",d:"Jun 2026",t:"Music"},{n:"Hot Chicken Fest",d:"Jul 2026",t:"Food"},{n:"Bonnaroo (nearby)",d:"Jun 2026",t:"Music"}],
+nearby:[
+  {name:"Franklin",lat:35.93,lon:-86.87,pop:"90K",mp:"$680K",vibe:"Historic Main Street, upscale dining, top schools",dist:"25 min S"},
+  {name:"Brentwood",lat:36.03,lon:-86.78,pop:"45K",mp:"$850K",vibe:"Wealthy enclave, excellent schools, safe, golf clubs",dist:"15 min S"},
+  {name:"Murfreesboro",lat:35.85,lon:-86.39,pop:"165K",mp:"$400K",vibe:"Affordable, MTSU, Stones River battlefield, growing",dist:"35 min SE"},
+  {name:"Hendersonville",lat:36.30,lon:-86.62,pop:"62K",mp:"$450K",vibe:"Old Hickory Lake, Johnny Cash home, family-friendly",dist:"25 min NE"},
+  {name:"Mt. Juliet",lat:36.20,lon:-86.52,pop:"42K",mp:"$480K",vibe:"Providence development, lake access, safe suburbs",dist:"25 min E"},
+  {name:"Spring Hill",lat:35.75,lon:-86.93,pop:"58K",mp:"$460K",vibe:"Fastest-growing TN city, GM plant, new builds",dist:"35 min S"}
+]},
+
+"Charlotte, NC":{lat:35.23,lon:-80.84,sub:"Charlotte",st:"North Carolina",mp:"$430,000",mpn:430000,col:95,rent:"$1,750",rentn:1750,util:"$190–250",groc:"$400",pop:"900K",unemp:"3.9%",sal:"$76,000",ind:"Finance, Banking, Tech",ws:26,clim:"mild",sch:7,out:7,cul:7,tax:false,safe:7,coast:false,food:7,brew:8,cof:7,nl:7,div:8,dog:7,beauty:7,sunset:6,
+cuisines:["bbq","brewery","farm"],
+vibes:["Banking Capital","Fast Growing","NASCAR Town","Southern Hospitality","Affordable Big City"],
+exp:[{e:"🏎️",n:"Motor Speedway",t:"Sports"},{e:"🍺",n:"NoDa breweries",t:"Food"},{e:"🏀",n:"Hornets game",t:"Sports"},{e:"🍖",n:"Midwood BBQ",t:"Food"},{e:"🎨",n:"Mint Museum",t:"Culture"},{e:"🚴",n:"Sugar Creek Greenway",t:"Outdoor"}],
+img:"https://images.unsplash.com/photo-1577084381314-5a1696546e76?w=800&h=600&fit=crop",
+webcams:['<a href="https://www.earthcam.com/usa/northcarolina/charlotte/" target="_blank">Charlotte Cam ↗</a>'],
+schools:[{n:"CMS Schools",r:7,t:"Public"},{n:"Charlotte Latin",r:9,t:"Private"},{n:"Providence Day",r:9,t:"Private"}],
+events:[{n:"Coca-Cola 600",d:"May 2026",t:"Sports"},{n:"Taste of Charlotte",d:"Jun 2026",t:"Food"},{n:"Renaissance Faire",d:"Oct 2026",t:"Festival"}],
+nearby:[
+  {name:"Huntersville",lat:35.41,lon:-80.84,pop:"62K",mp:"$490K",vibe:"Lake Norman access, Birkdale Village, family-friendly",dist:"20 min N"},
+  {name:"Cornelius",lat:35.49,lon:-80.86,pop:"35K",mp:"$530K",vibe:"Lake Norman waterfront, Jetton Park, upscale dining",dist:"25 min N"},
+  {name:"Matthews",lat:35.12,lon:-80.72,pop:"33K",mp:"$420K",vibe:"Charming downtown, Stumptown Park, diverse",dist:"15 min SE"},
+  {name:"Mooresville",lat:35.59,lon:-80.81,pop:"50K",mp:"$450K",vibe:"Race City USA, Lake Norman, outlet shopping",dist:"30 min N"},
+  {name:"Fort Mill, SC",lat:35.01,lon:-80.93,pop:"30K",mp:"$460K",vibe:"SC taxes, Kingsley, top schools, Anne Springs trails",dist:"20 min S"},
+  {name:"Waxhaw",lat:34.93,lon:-80.74,pop:"20K",mp:"$480K",vibe:"Historic downtown, equestrian country, Cane Creek Park",dist:"30 min S"},
+  {name:"Indian Trail",lat:35.08,lon:-80.67,pop:"45K",mp:"$390K",vibe:"Affordable, Sun Valley area, growing families",dist:"20 min SE"}
+]},
+
+"Portland, OR":{lat:45.51,lon:-122.68,sub:"Portland",st:"Oregon",mp:"$550,000",mpn:550000,col:125,rent:"$1,900",rentn:1900,util:"$200–260",groc:"$430",pop:"650K",unemp:"4.3%",sal:"$78,000",ind:"Tech, Outdoor, Creative",ws:67,clim:"cool",sch:8,out:9,cul:9,tax:false,safe:5,coast:true,food:10,brew:10,cof:10,nl:8,div:6,dog:10,beauty:9,sunset:8,
+cuisines:["farm","coffee","brewery","asian","seafood"],
+vibes:["Keep Portland Weird","Foodie Mecca","Coffee Capital","Bikeable","Green Living"],
+exp:[{e:"🍩",n:"Voodoo Doughnut",t:"Food"},{e:"☕",n:"Stumptown origins",t:"Food"},{e:"🍺",n:"Brewery pub crawl",t:"Food"},{e:"📚",n:"Powell's Books",t:"Culture"},{e:"🚴",n:"Bike the bridges",t:"Outdoor"},{e:"🌊",n:"Cannon Beach trip",t:"Adventure"}],
+img:"https://images.unsplash.com/photo-1535730558711-a32b818e7f2d?w=800&h=600&fit=crop",
+webcams:['<a href="https://katu.com/weather/cameras" target="_blank">Portland Cam ↗</a>'],
+schools:[{n:"Lake Oswego SD",r:9,t:"Public"},{n:"Catlin Gabel",r:9,t:"Private"},{n:"West Linn SD",r:9,t:"Public"}],
+events:[{n:"Rose Festival",d:"May-Jun 2026",t:"Festival"},{n:"Oregon Brewers Fest",d:"Jul 2026",t:"Food"},{n:"Feast Portland",d:"Sep 2026",t:"Food"}],
+nearby:[
+  {name:"Lake Oswego",lat:45.42,lon:-122.67,pop:"42K",mp:"$750K",vibe:"Lakefront luxury, top schools, boutique shopping",dist:"15 min S"},
+  {name:"Beaverton",lat:45.49,lon:-122.80,pop:"100K",mp:"$520K",vibe:"Nike HQ, diverse, Cedar Hills, good transit",dist:"15 min W"},
+  {name:"Tigard",lat:45.43,lon:-122.77,pop:"58K",mp:"$500K",vibe:"Affordable, Bridgeport Village, Cook Park trails",dist:"15 min SW"},
+  {name:"West Linn",lat:45.37,lon:-122.61,pop:"28K",mp:"$650K",vibe:"Willamette Falls views, top schools, trails",dist:"20 min S"},
+  {name:"Hillsboro",lat:45.52,lon:-122.99,pop:"115K",mp:"$530K",vibe:"Intel campus, diverse tech workers, wineries nearby",dist:"25 min W"},
+  {name:"Oregon City",lat:45.36,lon:-122.61,pop:"38K",mp:"$470K",vibe:"End of Oregon Trail, waterfalls, historic downtown",dist:"25 min S"},
+  {name:"Hood River",lat:45.71,lon:-121.52,pop:"8K",mp:"$580K",vibe:"Windsurfing capital, Mt Hood views, fruit orchards",dist:"1 hr E"}
+]},
+
+"Seattle, WA":{lat:47.61,lon:-122.33,sub:"Seattle",st:"Washington",mp:"$820,000",mpn:820000,col:140,rent:"$2,400",rentn:2400,util:"$210–280",groc:"$450",pop:"750K",unemp:"4.2%",sal:"$95,000",ind:"Tech, Aerospace, Biotech",ws:74,clim:"cool",sch:8,out:9,cul:9,tax:true,safe:6,coast:true,food:9,brew:9,cof:10,nl:8,div:8,dog:9,beauty:10,sunset:9,
+cuisines:["seafood","asian","coffee","farm","brewery"],
+vibes:["Tech Capital","Coffee Birthplace","Puget Sound Views","No Income Tax","Cultural Hub"],
+exp:[{e:"🐟",n:"Pike Place fish toss",t:"Culture"},{e:"☕",n:"Original Starbucks",t:"Food"},{e:"🏔️",n:"Mt. Rainier trip",t:"Outdoor"},{e:"🚢",n:"Bainbridge ferry",t:"Adventure"},{e:"🎵",n:"Museum of Pop Culture",t:"Culture"},{e:"🍣",n:"Intl District food",t:"Food"}],
+img:"https://images.unsplash.com/photo-1502175353174-a7a70e73b4c3?w=800&h=600&fit=crop",
+webcams:['<iframe width="100%" height="260" src="https://www.youtube.com/embed/bKtsWET-npU" allowfullscreen></iframe>'],
+schools:[{n:"Bellevue SD",r:9,t:"Public"},{n:"Lakeside School",r:10,t:"Private"},{n:"Mercer Island SD",r:9,t:"Public"}],
+events:[{n:"Bumbershoot",d:"Sep 2026",t:"Music"},{n:"Seafair",d:"Jul 2026",t:"Festival"},{n:"Bite of Seattle",d:"Jul 2026",t:"Food"}],
+nearby:[
+  {name:"Bellevue",lat:47.61,lon:-122.20,pop:"155K",mp:"$1.2M",vibe:"Tech hub (Meta, Google), downtown skyline, top schools",dist:"15 min E"},
+  {name:"Kirkland",lat:47.68,lon:-122.21,pop:"95K",mp:"$950K",vibe:"Waterfront parks, Google campus, wine bars, walkable",dist:"20 min NE"},
+  {name:"Redmond",lat:47.67,lon:-122.12,pop:"78K",mp:"$900K",vibe:"Microsoft & Nintendo HQ, Marymoor Park, bike trails",dist:"25 min E"},
+  {name:"Issaquah",lat:47.53,lon:-122.03,pop:"42K",mp:"$850K",vibe:"Gilman Village, Tiger Mountain trails, Costco HQ",dist:"25 min SE"},
+  {name:"Bothell",lat:47.76,lon:-122.21,pop:"52K",mp:"$780K",vibe:"UW Bothell, McMenamins, family-oriented, trails",dist:"20 min NE"},
+  {name:"Edmonds",lat:47.81,lon:-122.38,pop:"42K",mp:"$820K",vibe:"Ferry to Kingston, beachfront downtown, art galleries",dist:"20 min N"},
+  {name:"Bainbridge Island",lat:47.63,lon:-122.52,pop:"25K",mp:"$900K",vibe:"Ferry commute, island living, wineries, art studios",dist:"35 min ferry"},
+  {name:"Tacoma",lat:47.25,lon:-122.44,pop:"220K",mp:"$480K",vibe:"Museum district, Point Defiance, affordable waterfront",dist:"35 min S"}
+]},
+
+"Phoenix, AZ":{lat:33.45,lon:-112.07,sub:"phoenix",st:"Arizona",mp:"$470,000",mpn:470000,col:101,rent:"$1,700",rentn:1700,util:"$250–320",groc:"$410",pop:"1.65M",unemp:"4.0%",sal:"$73,000",ind:"Tech, Tourism, Healthcare",ws:41,clim:"hot",sch:6,out:8,cul:7,tax:false,safe:6,coast:false,food:7,brew:7,cof:6,nl:7,div:7,dog:6,beauty:8,sunset:10,
+cuisines:["mexican","bbq"],
+vibes:["Valley of the Sun","Scottsdale Vibes","Desert Sunsets","Golf Capital","Snowbird Escape"],
+exp:[{e:"🌅",n:"Camelback sunset",t:"Outdoor"},{e:"⛳",n:"Scottsdale golf",t:"Outdoor"},{e:"🌮",n:"S. Phoenix tacos",t:"Food"},{e:"🏜️",n:"Sedona day trip",t:"Adventure"},{e:"💆",n:"Scottsdale spa",t:"Wellness"},{e:"🏟️",n:"Spring Training",t:"Sports"}],
+img:"https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&h=600&fit=crop",
+webcams:['<a href="https://www.earthcam.com/usa/arizona/phoenix/" target="_blank">Phoenix Cam ↗</a>'],
+schools:[{n:"Scottsdale Unified",r:8,t:"Public"},{n:"Basis Scottsdale",r:10,t:"Charter"},{n:"Great Hearts",r:9,t:"Charter"}],
+events:[{n:"WM Phoenix Open",d:"Feb 2026",t:"Sports"},{n:"First Friday",d:"Monthly",t:"Arts"},{n:"Spring Training",d:"Feb-Mar 2026",t:"Sports"}],
+nearby:[
+  {name:"Scottsdale",lat:33.49,lon:-111.93,pop:"250K",mp:"$680K",vibe:"Old Town nightlife, spa resorts, art galleries, golf",dist:"15 min E"},
+  {name:"Tempe",lat:33.43,lon:-111.94,pop:"185K",mp:"$450K",vibe:"ASU campus, Mill Ave, Tempe Town Lake, young energy",dist:"12 min E"},
+  {name:"Chandler",lat:33.30,lon:-111.84,pop:"280K",mp:"$490K",vibe:"Intel campus, Downtown Chandler, family-friendly tech",dist:"25 min SE"},
+  {name:"Gilbert",lat:33.35,lon:-111.79,pop:"275K",mp:"$520K",vibe:"Heritage District, top schools, farm-to-table dining",dist:"25 min SE"},
+  {name:"Mesa",lat:33.42,lon:-111.83,pop:"510K",mp:"$420K",vibe:"Affordable, Apache Trail, spring training, diverse",dist:"20 min E"},
+  {name:"Peoria",lat:33.58,lon:-112.24,pop:"195K",mp:"$430K",vibe:"Lake Pleasant, spring training, family-oriented",dist:"25 min NW"},
+  {name:"Cave Creek",lat:33.83,lon:-111.95,pop:"6K",mp:"$650K",vibe:"Western town, horseback, desert luxury, Frontier Town",dist:"30 min N"},
+  {name:"Queen Creek",lat:33.25,lon:-111.63,pop:"75K",mp:"$480K",vibe:"Farm country turning suburban, Schnepf Farms, new builds",dist:"35 min SE"}
+]},
+
+"Boston, MA":{lat:42.36,lon:-71.06,sub:"boston",st:"Massachusetts",mp:"$820,000",mpn:820000,col:148,rent:"$2,800",rentn:2800,util:"$250–320",groc:"$480",pop:"685K",unemp:"3.9%",sal:"$92,000",ind:"Biotech, Finance, Education, Healthcare",ws:83,clim:"four seasons",sch:8,out:7,cul:10,tax:false,safe:6,coast:true,food:9,brew:8,cof:9,nl:9,div:8,dog:7,beauty:8,sunset:8,
+cuisines:["seafood","farm","coffee","asian","brewery"],
+vibes:["World-Class Universities","Seafood Capital","Historic Charm","Walkable City","Sports Town"],
+exp:[{e:"🦞",n:"Lobster on the waterfront",t:"Food"},{e:"🏛️",n:"Freedom Trail walk",t:"Culture"},{e:"🏟️",n:"Fenway Park game",t:"Sports"},{e:"📚",n:"Harvard Yard stroll",t:"Culture"},{e:"🚶",n:"Beacon Hill cobblestones",t:"Culture"},{e:"🍺",n:"Sam Adams brewery tour",t:"Food"}],
+img:"https://images.unsplash.com/photo-1501979376754-2ff867a4f659?w=800&h=600&fit=crop",
+webcams:['<a href="https://www.earthcam.com/usa/massachusetts/boston/" target="_blank">Boston Harbor Cam ↗</a>'],
+schools:[{n:"Boston Latin School",r:9,t:"Public"},{n:"Brookline Schools",r:9,t:"Public"},{n:"Nobles & Greenough",r:10,t:"Private"},{n:"Wellesley Public",r:9,t:"Public"}],
+events:[{n:"Boston Marathon",d:"Apr 2026",t:"Sports"},{n:"Head of the Charles",d:"Oct 2026",t:"Sports"},{n:"Boston Calling",d:"May 2026",t:"Music"},{n:"St. Patrick's Parade",d:"Mar 2026",t:"Culture"},{n:"Boston Seafood Fest",d:"Aug 2026",t:"Food"}],
+nearby:[
+  {name:"Cambridge",lat:42.37,lon:-71.11,pop:"118K",mp:"$950K",vibe:"MIT & Harvard, Kendall Square biotech, Central Sq dining",dist:"10 min"},
+  {name:"Somerville",lat:42.39,lon:-71.10,pop:"80K",mp:"$820K",vibe:"Davis Square, Assembly Row, young professionals, breweries",dist:"10 min N"},
+  {name:"Brookline",lat:42.33,lon:-71.12,pop:"63K",mp:"$1.1M",vibe:"Top schools, Coolidge Corner, green line access, safe",dist:"10 min W"},
+  {name:"Newton",lat:42.34,lon:-71.21,pop:"90K",mp:"$1.2M",vibe:"Excellent schools, village centers, affluent, family ideal",dist:"20 min W"},
+  {name:"Quincy",lat:42.25,lon:-71.00,pop:"105K",mp:"$580K",vibe:"Affordable waterfront, Asian food scene, Red Line access",dist:"15 min S"},
+  {name:"Salem",lat:42.52,lon:-70.90,pop:"44K",mp:"$540K",vibe:"Witch City history, waterfront dining, commuter rail",dist:"30 min N"},
+  {name:"Waltham",lat:42.38,lon:-71.24,pop:"65K",mp:"$680K",vibe:"Brandeis Univ, Moody Street restaurants, tech companies",dist:"20 min W"},
+  {name:"Hingham",lat:42.24,lon:-70.89,pop:"25K",mp:"$950K",vibe:"Harbor town, ferry to Boston, top schools, historic",dist:"25 min S"}
+]},
+
+"Portsmouth, NH":{lat:43.07,lon:-70.76,sub:"PortsmouthNH",st:"New Hampshire",mp:"$650,000",mpn:650000,col:118,rent:"$2,200",rentn:2200,util:"$220–280",groc:"$430",pop:"22K",unemp:"2.8%",sal:"$72,000",ind:"Tech, Defense, Tourism, Maritime",ws:72,clim:"four seasons",sch:8,out:8,cul:8,tax:true,safe:9,coast:true,food:9,brew:9,cof:8,nl:7,div:4,dog:8,beauty:9,sunset:9,
+cuisines:["seafood","farm","brewery","coffee"],
+vibes:["Seacoast Gem","No Income Tax","Historic Seaport","Foodie Town","Walkable Downtown"],
+exp:[{e:"🦞",n:"Lobster at The Oar House",t:"Food"},{e:"🚶",n:"Market Square stroll",t:"Culture"},{e:"🌊",n:"New Castle beach walk",t:"Outdoor"},{e:"🍺",n:"Brewery & cidery trail",t:"Food"},{e:"🏠",n:"Strawbery Banke museum",t:"Culture"},{e:"🎭",n:"Music Hall shows",t:"Culture"}],
+img:"https://images.unsplash.com/photo-1623177625843-59e1d4472e2e?w=800&h=600&fit=crop",
+webcams:['<a href="https://portsmouthwebcam.com/" target="_blank">Portsmouth Harbor Cam ↗</a>'],
+schools:[{n:"Portsmouth Schools",r:8,t:"Public"},{n:"Phillips Exeter (nearby)",r:10,t:"Private"},{n:"Rye Schools",r:9,t:"Public"}],
+events:[{n:"Market Square Day",d:"Jun 2026",t:"Festival"},{n:"Prescott Park Arts Fest",d:"Jun-Aug 2026",t:"Arts"},{n:"Vintage Christmas",d:"Dec 2026",t:"Holiday"},{n:"Restaurant Week",d:"Nov 2026",t:"Food"}],
+nearby:[
+  {name:"Dover",lat:43.20,lon:-70.87,pop:"32K",mp:"$420K",vibe:"Affordable, craft brewery scene, Cochecho River, growing downtown",dist:"15 min N"},
+  {name:"Exeter",lat:42.98,lon:-70.95,pop:"16K",mp:"$520K",vibe:"Phillips Exeter Academy, charming downtown, river walks",dist:"15 min SW"},
+  {name:"Kittery, ME",lat:43.09,lon:-70.74,pop:"10K",mp:"$550K",vibe:"Outlet shopping, Kittery Point views, lobster shacks",dist:"5 min"},
+  {name:"Newburyport, MA",lat:42.81,lon:-70.88,pop:"18K",mp:"$680K",vibe:"Plum Island beaches, downtown boutiques, Merrimack River",dist:"20 min S"},
+  {name:"Rye",lat:43.01,lon:-70.77,pop:"6K",mp:"$900K",vibe:"Beach community, Rye Harbor, Jenness Beach, upscale quiet",dist:"10 min S"},
+  {name:"York, ME",lat:43.16,lon:-70.64,pop:"13K",mp:"$580K",vibe:"Nubble Lighthouse, York Beach, Cape Neddick lobster",dist:"15 min N"},
+  {name:"Hampton",lat:42.94,lon:-70.84,pop:"16K",mp:"$620K",vibe:"Hampton Beach boardwalk, no income tax, family summers",dist:"10 min S"}
+]},
+
+"Wilmington, NC":{lat:34.24,lon:-77.95,sub:"Wilmington",st:"North Carolina",mp:"$390,000",mpn:390000,col:96,rent:"$1,500",rentn:1500,util:"$190–240",groc:"$390",pop:"125K",unemp:"4.0%",sal:"$62,000",ind:"Film, Healthcare, Tourism, Marine Science",ws:32,clim:"mild",sch:7,out:8,cul:7,tax:false,safe:6,coast:true,food:8,brew:7,cof:7,nl:7,div:6,dog:8,beauty:9,sunset:10,
+cuisines:["seafood","bbq","farm","brewery"],
+vibes:["Beach Town","Hollywood East","Riverwalk Dining","Surf Culture","Affordable Coast"],
+exp:[{e:"🏖️",n:"Wrightsville Beach day",t:"Outdoor"},{e:"🚶",n:"Riverwalk dining stroll",t:"Food"},{e:"🏄",n:"Surf at Wrightsville",t:"Outdoor"},{e:"🎬",n:"Screen Gems studio tour",t:"Culture"},{e:"🦀",n:"Fresh catch seafood feast",t:"Food"},{e:"🌅",n:"Kure Beach sunset",t:"Nature"}],
+img:"https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=800&h=600&fit=crop",
+webcams:['<a href="https://www.earthcam.com/usa/northcarolina/wilmington/" target="_blank">Wilmington Cam ↗</a>'],
+schools:[{n:"New Hanover County",r:7,t:"Public"},{n:"Cape Fear Academy",r:8,t:"Private"},{n:"Coastal Christian",r:7,t:"Private"}],
+events:[{n:"NC Azalea Festival",d:"Apr 2026",t:"Festival"},{n:"Cucalorus Film Fest",d:"Nov 2026",t:"Arts"},{n:"Riverfest",d:"Oct 2026",t:"Festival"},{n:"Downtown Sundown",d:"Summer Fri",t:"Music"}],
+nearby:[
+  {name:"Wrightsville Beach",lat:34.21,lon:-77.80,pop:"3K",mp:"$850K",vibe:"Premier beach, surf culture, upscale dining, island living",dist:"10 min E"},
+  {name:"Carolina Beach",lat:34.04,lon:-77.89,pop:"7K",mp:"$480K",vibe:"Boardwalk, state park, family beach, more affordable",dist:"20 min S"},
+  {name:"Leland",lat:34.25,lon:-78.05,pop:"25K",mp:"$360K",vibe:"Fast-growing, Brunswick Co schools, affordable new builds",dist:"15 min W"},
+  {name:"Hampstead",lat:34.37,lon:-77.71,pop:"8K",mp:"$380K",vibe:"Topsail Island access, quiet, Pender County, rural charm",dist:"20 min N"},
+  {name:"Kure Beach",lat:33.99,lon:-77.91,pop:"3K",mp:"$520K",vibe:"Fort Fisher aquarium, quiet beach, NC Aquarium, laid-back",dist:"25 min S"},
+  {name:"Southport",lat:33.92,lon:-78.02,pop:"4K",mp:"$420K",vibe:"Charming fishing village, oak-lined streets, Bald Head ferry",dist:"35 min S"}
+]},
+
+"Charleston, SC":{lat:32.78,lon:-79.93,sub:"Charleston",st:"South Carolina",mp:"$485,000",mpn:485000,col:108,rent:"$1,750",rentn:1750,util:"$230–290",groc:"$410",pop:"155K",unemp:"3.2%",sal:"$58,000",ind:"Tourism, Military, Healthcare, Tech",ws:42,clim:"mild",sch:7,out:8,cul:9,tax:false,safe:7,coast:true,food:9,brew:8,cof:8,nl:8,div:7,dog:8,beauty:9,sunset:10,
+cuisines:["seafood","bbq","farm","brewery"],
+vibes:["Historic Charm","Coastal Foodie","Lowcountry Living","Walkable Downtown","Southern Elegance"],
+exp:[{e:"🏛️",n:"Rainbow Row & Battery Walk",t:"Historic"},{e:"🌊",n:"Folly Beach surfing",t:"Outdoor"},{e:"🍤",n:"Husk Restaurant experience",t:"Food"},{e:"🌿",n:"Angel Oak Tree visit",t:"Nature"},{e:"🎭",n:"Spoleto Festival USA",t:"Culture"},{e:"🚤",n:"Harbor sunset cruise",t:"Experience"}],
+img:"https://images.unsplash.com/photo-1587907680753-5b38e42e0a10?w=800&h=600&fit=crop",
+webcams:['<a href="https://www.earthcam.com/usa/southcarolina/charleston/" target="_blank">Charleston Cam ↗</a>'],
+schools:[{n:"Charleston County Schools",r:7,t:"Public"},{n:"Porter-Gaud",r:9,t:"Private"},{n:"Academic Magnet HS",r:10,t:"Magnet"}],
+events:[{n:"Spoleto Festival",d:"May 2026",t:"Arts"},{n:"Wine + Food Festival",d:"Mar 2026",t:"Food"},{n:"SE Wildlife Expo",d:"Feb 2026",t:"Culture"}],
+nearby:[
+  {name:"Mount Pleasant",lat:32.79,lon:-79.86,pop:"96K",mp:"$550K",vibe:"Family suburb, Shem Creek dining, beaches nearby",dist:"10 min E"},
+  {name:"Summerville",lat:33.02,lon:-80.18,pop:"55K",mp:"$350K",vibe:"Flowertown, historic downtown, affordable family living",dist:"25 min NW"},
+  {name:"James Island",lat:32.72,lon:-79.94,pop:"12K",mp:"$430K",vibe:"Island living, Folly Beach access, laid-back vibe",dist:"10 min S"},
+  {name:"Daniel Island",lat:32.86,lon:-79.90,pop:"15K",mp:"$750K",vibe:"Master-planned, golf courses, upscale family community",dist:"15 min N"},
+  {name:"West Ashley",lat:32.76,lon:-80.02,pop:"65K",mp:"$340K",vibe:"Established neighborhoods, Avondale dining district",dist:"10 min W"},
+  {name:"Kiawah Island",lat:32.61,lon:-80.08,pop:"2K",mp:"$1.2M",vibe:"Luxury resort island, world-class golf, pristine beach",dist:"35 min S"},
+  {name:"North Charleston",lat:32.88,lon:-80.01,pop:"115K",mp:"$275K",vibe:"Revitalizing arts district, Park Circle neighborhood",dist:"12 min N"}
+]},
+
+"Chattanooga, TN":{lat:35.05,lon:-85.31,sub:"Chattanooga",st:"Tennessee",mp:"$310,000",mpn:310000,col:89,rent:"$1,200",rentn:1200,util:"$200–260",groc:"$380",pop:"185K",unemp:"3.5%",sal:"$52,000",ind:"Manufacturing, Insurance, Healthcare, Tech",ws:34,clim:"four seasons",sch:7,out:9,cul:7,tax:true,safe:6,coast:false,food:8,brew:8,cof:7,nl:7,div:6,dog:8,beauty:9,sunset:9,
+cuisines:["bbq","farm","brewery"],
+vibes:["Outdoorsy","Affordable","Revitalized","Mountain Town","Gig City"],
+exp:[{e:"🏔️",n:"Lookout Mountain summit",t:"Outdoor"},{e:"🚂",n:"Incline Railway ride",t:"Experience"},{e:"💎",n:"Ruby Falls underground waterfall",t:"Nature"},{e:"🌉",n:"Walnut St Pedestrian Bridge",t:"Culture"},{e:"🎨",n:"Bluff View Art District",t:"Culture"},{e:"🚴",n:"Riverwalk trail cycling",t:"Outdoor"}],
+img:"https://images.unsplash.com/photo-1608977726109-3752e63dcf30?w=800&h=600&fit=crop",
+webcams:['<a href="https://www.earthcam.com/usa/tennessee/chattanooga/" target="_blank">Chattanooga Cam ↗</a>'],
+schools:[{n:"Hamilton County Schools",r:7,t:"Public"},{n:"Normal Park Museum Magnet",r:8,t:"Magnet"},{n:"McCallie School",r:9,t:"Private"}],
+events:[{n:"Riverbend Festival",d:"Jun 2026",t:"Music"},{n:"4 Bridges Arts Fest",d:"Apr 2026",t:"Arts"},{n:"Nightfall Concert Series",d:"Summer Fri",t:"Music"}],
+nearby:[
+  {name:"Signal Mountain",lat:35.12,lon:-85.34,pop:"9K",mp:"$410K",vibe:"Mountain-top community, excellent schools, scenic views",dist:"15 min N"},
+  {name:"Lookout Mountain",lat:34.98,lon:-85.35,pop:"2K",mp:"$480K",vibe:"Historic estates, Rock City, stunning valley views",dist:"10 min S"},
+  {name:"Ooltewah",lat:35.07,lon:-85.07,pop:"12K",mp:"$340K",vibe:"Growing suburb, good schools, lake access",dist:"20 min E"},
+  {name:"Hixson",lat:35.13,lon:-85.24,pop:"45K",mp:"$280K",vibe:"Affordable suburb, Chester Frost Park, family-friendly",dist:"12 min N"},
+  {name:"Soddy-Daisy",lat:35.24,lon:-85.19,pop:"14K",mp:"$250K",vibe:"Small-town feel, Chickamauga Lake, affordable living",dist:"20 min NE"},
+  {name:"East Ridge",lat:35.01,lon:-85.25,pop:"22K",mp:"$230K",vibe:"Affordable, Camp Jordan Park, close to downtown",dist:"10 min SE"}
+]},
+
+"Atlanta, GA":{lat:33.75,lon:-84.39,sub:"Atlanta",st:"Georgia",mp:"$420,000",mpn:420000,col:107,rent:"$1,700",rentn:1700,util:"$220–280",groc:"$410",pop:"510K",unemp:"3.4%",sal:"$65,000",ind:"Tech, Film, Finance, Healthcare",ws:48,clim:"mild",sch:6,out:8,cul:9,tax:false,safe:6,coast:false,food:9,brew:8,cof:8,nl:9,div:9,dog:8,beauty:7,sunset:8,
+cuisines:["bbq","asian","farm","coffee","brewery"],
+vibes:["Diverse Metropolis","Film Capital","BeltLine Culture","Foodie Hub","Booming Tech"],
+exp:[{e:"🏞️",n:"BeltLine Trail & art walk",t:"Outdoor"},{e:"🐼",n:"Zoo Atlanta pandas",t:"Family"},{e:"🍑",n:"Ponce City Market food hall",t:"Food"},{e:"🏛️",n:"MLK Jr. Historic Site",t:"Culture"},{e:"🎨",n:"High Museum of Art",t:"Culture"},{e:"🍗",n:"Mary Mac's Tea Room",t:"Food"}],
+img:"https://images.unsplash.com/photo-1575917649444-73041709297b?w=800&h=600&fit=crop",
+webcams:['<a href="https://www.earthcam.com/usa/georgia/atlanta/" target="_blank">Atlanta Cam ↗</a>'],
+schools:[{n:"Decatur City Schools",r:9,t:"Public"},{n:"The Westminster Schools",r:10,t:"Private"},{n:"Fulton County Schools",r:7,t:"Public"}],
+events:[{n:"Music Midtown",d:"Sep 2026",t:"Music"},{n:"Dragon Con",d:"Sep 2026",t:"Culture"},{n:"Peachtree Road Race",d:"Jul 2026",t:"Sports"},{n:"Atlanta Film Fest",d:"Apr 2026",t:"Arts"}],
+nearby:[
+  {name:"Decatur",lat:33.77,lon:-84.30,pop:"25K",mp:"$500K",vibe:"Walkable downtown, top restaurants, craft beer scene",dist:"10 min E"},
+  {name:"Marietta",lat:33.95,lon:-84.55,pop:"65K",mp:"$380K",vibe:"Historic square, family-friendly, Kennesaw Mountain nearby",dist:"25 min NW"},
+  {name:"Alpharetta",lat:34.08,lon:-84.29,pop:"67K",mp:"$550K",vibe:"Tech hub, Avalon district, excellent schools",dist:"30 min N"},
+  {name:"Smyrna",lat:33.88,lon:-84.51,pop:"58K",mp:"$430K",vibe:"Village Green vibe, SunTrust Park area, young professionals",dist:"15 min NW"},
+  {name:"Brookhaven",lat:33.87,lon:-84.34,pop:"55K",mp:"$580K",vibe:"Upscale, Peachtree Creek Greenway, great dining",dist:"10 min NE"},
+  {name:"East Point",lat:33.68,lon:-84.44,pop:"40K",mp:"$280K",vibe:"Revitalizing, airport proximity, affordable historic homes",dist:"10 min S"},
+  {name:"Roswell",lat:34.02,lon:-84.36,pop:"95K",mp:"$480K",vibe:"Canton Street dining, river trails, historic mill town",dist:"25 min N"},
+  {name:"Woodstock",lat:34.10,lon:-84.52,pop:"35K",mp:"$400K",vibe:"Downtown revival, craft breweries, Blankets Creek trails",dist:"35 min N"}
+]}
+};
+
+/* === SCORING ENGINE === */
+function scoreCity(c, p) {
+  let w={aff:.15,clim:.10,sch:.04,safe:.07,walk:.07,out:.07,cul:.06,tax:.05,ind:.08,col:.08,food:.08,coast:.04,beauty:.04,nl:.04,div:.03};
+  if(p.youngKids){w.sch+=.10;w.safe+=.07}
+  if(p.lowCrime)w.safe+=.08;
+  if(p.life.includes('walkable'))w.walk+=.08;
+  if(p.life.includes('outdoor'))w.out+=.08;
+  if(p.life.includes('lowTax'))w.tax+=.10;
+  if(p.life.includes('suburban')){w.safe+=.04;w.walk-=.03}
+  if(p.life.includes('diversity'))w.div+=.06;
+  if(p.foodPri==='critical')w.food+=.10;
+  else if(p.foodPri==='meh')w.food-=.04;
+  if(p.coastPref==='must')w.coast+=.15;
+  else if(p.coastPref==='nice')w.coast+=.06;
+  if(p.beautyImp>7)w.beauty+=.06;
+  if(p.cultures.length>1){w.cul+=.06;w.nl+=.04}
+  const tot=Object.values(w).reduce((a,b)=>a+b,0);
+  for(let k in w)w[k]/=tot;
+
+  const d={};
+  const bMax={low:400000,mid:600000,high:1000000,premium:2000000,luxury:3500000,ultra:5000000,noLimit:10000000}[p.budget]||600000;
+  const r=c.mpn/bMax;
+  d.aff=r<=.7?10:r<=.9?8:r<=1?6:r<=1.2?4:r<=1.5?2:1;
+  if(p.rentBud){const rr=c.rentn/p.rentBud;d.aff=(d.aff+(rr<=.8?10:rr<=1?7:rr<=1.2?4:2))/2}
+  d.clim=c.clim===p.climate?10:4;
+  d.sch=c.sch;d.safe=c.safe;d.walk=c.ws/10;d.out=c.out;d.cul=c.cul;
+  d.tax=c.tax?9:5;
+  d.col=c.col<=95?9:c.col<=105?7:c.col<=120?5:3;
+  d.food=c.food;
+  d.coast=p.coastPref==='must'?(c.coast?10:1):p.coastPref==='nice'?(c.coast?9:5):5;
+  d.beauty=c.beauty;d.nl=c.nl;d.div=c.div;
+  d.ind=5;
+  if(p.jobSit==='remote')d.ind=7;
+  else if(p.industry){const ui=p.industry.toLowerCase();d.ind=c.ind.toLowerCase().includes(ui)?10:ui.split(/[\s,]+/).some(x=>c.ind.toLowerCase().includes(x))?8:4}
+  if(p.cuisines.length){const m=p.cuisines.filter(x=>c.cuisines.includes(x)).length;d.food=Math.min(10,d.food+m*.5)}
+  let pen=0;
+  if(p.avoid){const a=p.avoid.toLowerCase();
+    if(a.includes('heat')&&c.clim==='hot')pen+=20;
+    if(a.includes('humidity')&&c.clim==='mild')pen+=10;
+    if(a.includes('cold')&&(c.clim==='cool'||c.clim==='four seasons'))pen+=15;
+    if(a.includes('crime')&&c.safe<6)pen+=15;
+    if(a.includes('expensive')&&c.col>110)pen+=15;
+    if(a.includes('sprawl')&&c.ws<35)pen+=10;
+  }
+  let sc=0;for(let k in d)sc+=(d[k]/10)*(w[k]||0);
+  sc=Math.max(0,Math.min(100,Math.round(sc*100)-pen));
+  const labs={aff:'affordability',clim:'climate fit',sch:'schools',safe:'safety',walk:'walkability',out:'outdoor',cul:'culture',tax:'tax advantage',col:'cost of living',ind:'job market',food:'food scene',coast:'coastal',beauty:'natural beauty',nl:'nightlife',div:'diversity'};
+  const strengths=Object.entries(d).sort((a,b)=>b[1]-a[1]).slice(0,4).filter(([,v])=>v>=7).map(([k])=>labs[k]);
+  return{score:sc,strengths,dims:d};
+}
+
+/* === DEFAULT/FORM PREFS === */
+function defPrefs(){return{budget:'mid',rentBud:null,climate:'mild',youngKids:false,lowCrime:false,life:[],cuisines:[],cultures:[],foodPri:'important',coastPref:'none',beautyImp:5,jobSit:'remote',industry:'',avoid:''}}
+function formPrefs(){return{
+  budget:$('#budget').value,rentBud:parseInt($('#rent').value)||null,climate:$('#climate').value,
+  youngKids:$('#youngKids').checked,lowCrime:$('#lowCrime').checked,
+  life:[...$$('.lifestyle:checked')].map(c=>c.value),
+  cuisines:[...$$('.cuisine:checked')].map(c=>c.value),
+  cultures:[...$$('.culture:checked')].map(c=>c.value),
+  foodPri:($$('input[name="food"]:checked')[0]||{}).value||'important',
+  coastPref:($$('input[name="coastal"]:checked')[0]||{}).value||'none',
+  beautyImp:parseInt($('#beautyImp').value)||5,
+  jobSit:$('#jobSit').value,industry:$('#industry').value.trim(),avoid:$('#avoid').value.trim()
+}}
+function $(s){return document.getElementById(s)}
+function $$(s){return document.querySelectorAll(s)}
+
+let curPrefs=defPrefs(), scored=[];
+function scoreAll(p){
+  scored=Object.entries(C).map(([name,city])=>{const r=scoreCity(city,p);return{name,city,...r}}).sort((a,b)=>b.score-a.score);
+}
+
+/* === WEATHER === */
+async function fetchWx(lat,lon,el){
+  try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit`);
+  const d=await r.json();const cw=d.current_weather;const desc=wxTxt(cw.weathercode);
+  el.innerHTML=`<span>${desc}</span> <span class="wt">${Math.round(cw.temperature)}°F</span> <span>Wind ${Math.round(cw.windspeed)} mph</span>`;
+  }catch{el.innerHTML='<span>Weather unavailable</span>'}
+}
+function wxTxt(c){if(c===0)return'☀️ Clear';if(c<=3)return'⛅ Cloudy';if(c<=49)return'🌫️ Fog';if(c<=59)return'🌧️ Drizzle';if(c<=69)return'🌧️ Rain';if(c<=79)return'🌨️ Snow';if(c<=86)return'🌨️ Flurries';if(c>=95)return'⛈️ Storm';return'🌤️ Mixed'}
+
+/* === SENTIMENT === */
+const posW=['love','great','amazing','awesome','beautiful','best','happy','excellent','fantastic','wonderful','good','nice','enjoy','fun','recommend','perfect','excited'];
+const negW=['hate','terrible','awful','worst','crime','dangerous','homeless','traffic','expensive','overpriced','crowded','dirty','avoid','sucks','protest','outage','shooting'];
+const anomKw=['crime','traffic','outage','protest','shooting','flood','fire','emergency'];
+function sent(t){const l=t.toLowerCase();let p=0,n=0;posW.forEach(w=>{if(l.includes(w))p++});negW.forEach(w=>{if(l.includes(w))n++});return p>n?'positive':n>p?'negative':'neutral'}
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function expand(el){const p=el.closest('.acc-body');if(p)p.style.maxHeight=p.scrollHeight+'px'}
+
+/* === RENDER GRID === */
+function renderGrid(cities){
+  const g=document.getElementById('cityGrid');g.innerHTML='';
+  cities.forEach((r,i)=>{
+    const card=document.createElement('div');card.className='city-card anim';
+    card.innerHTML=buildCard(r,i);g.appendChild(card);
+    fetchWx(r.city.lat,r.city.lon,card.querySelector('.wx'));
+    wireAcc(card,r);
+    // Wire nearby town chips
+    card.querySelectorAll('.town-chip').forEach(tc=>{
+      tc.addEventListener('click',()=>openResearch(tc.dataset.town,r.name,r.city));
+    });
+  });
+  document.getElementById('rCount').textContent=`${cities.length} cities`;
+  renderCmp(cities.slice(0,4));
+}
+
+function buildCard(r,i){
+  const c=r.city;
+  let fit='';
+  if(r.strengths.length>=2)fit=`Stands out for ${r.strengths[0]} and ${r.strengths[1]}.`;
+  else if(r.strengths.length===1)fit=`Excels in ${r.strengths[0]}.`;
+  else fit='Balanced across your criteria.';
+  if(c.clim===curPrefs.climate)fit+=' Climate matches perfectly.';
+
+  const sc=r.score>=75?'#10b981':r.score>=55?'#f59e0b':'#ef4444';
+  const circ=2*Math.PI*20,off=circ-(r.score/100)*circ;
+
+  let badges=`<span class="badge badge-rank">#${i+1}</span>`;
+  if(c.coast)badges+=`<span class="badge badge-coastal">Coastal</span>`;
+  if(c.food>=9)badges+=`<span class="badge badge-foodie">Foodie</span>`;
+
+  const vibeHTML=c.vibes.map(v=>{
+    let cl='vibe';
+    if(/food|bbq|chicken|coffee|brew/i.test(v))cl+=' vf';
+    else if(/outdoor|mountain|desert|sun|dog/i.test(v))cl+=' vn';
+    else if(/music|culture|weird|art/i.test(v))cl+=' vc';
+    else if(/coast|sound|beach/i.test(v))cl+=' vs';
+    return`<span class="${cl}">${v}</span>`;
+  }).join('');
+
+  const expHTML=c.exp.map(e=>`<div class="exp-c"><div class="ee">${e.e}</div><div class="en">${e.n}</div><div class="et">${e.t}</div></div>`).join('');
+
+  const bars=[
+    {l:'Food',v:c.food,cl:'#f59e0b'},{l:'Outdoor',v:c.out,cl:'#10b981'},
+    {l:'Culture',v:c.cul,cl:'#6366f1'},{l:'Safety',v:c.safe,cl:'#0ea5e9'},
+    {l:'Walk',v:c.ws/10,cl:'#ec4899'},{l:'Beauty',v:c.beauty,cl:'#14b8a6'}
+  ];
+  const barsHTML=bars.map(b=>`<div class="bar"><span class="bl">${b.l}</span><div class="bt"><div class="bf" style="width:${b.v*10}%;background:${b.cl}"></div></div><span class="bv">${b.v}</span></div>`).join('');
+
+  // Nearby towns chips
+  const nearbyHTML=c.nearby?`
+    <div class="nearby-sect">
+      <div class="nearby-lbl">📍 Explore Nearby Towns & Suburbs</div>
+      <div class="nearby-grid">
+        ${c.nearby.map(t=>`<button class="town-chip" data-town="${t.name}" title="${t.vibe}">${t.name} <span class="tc-pop">${t.pop} · ${t.dist}</span></button>`).join('')}
+      </div>
+    </div>`:'';
+
+  return`
+    <div class="card-hero" style="background-image:url('${c.img}')">
+      <div class="card-badges">${badges}</div>
+      <div class="hero-ov">
+        <div><div class="cname">${r.name}</div><div class="csub">${c.pop} · ${c.ind.split(',')[0].trim()}</div></div>
+        <div class="score-ring">
+          <svg width="48" height="48" viewBox="0 0 44 44"><circle class="rbg" cx="22" cy="22" r="20"/><circle class="rfg" cx="22" cy="22" r="20" stroke="${sc}" stroke-dasharray="${circ}" stroke-dashoffset="${off}"/></svg>
+          <div class="stxt">${r.score}</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-fit">${fit}</p>
+      <div class="vibe-row">${vibeHTML}</div>
+      <div class="exp-sect"><div class="exp-lbl">Top Experiences</div><div class="exp-scroll">${expHTML}</div></div>
+      <div class="met-row">
+        <div class="met"><div class="mv">${c.mp}</div><div class="ml">Median Home</div></div>
+        <div class="met"><div class="mv">${c.rent}</div><div class="ml">Avg Rent</div></div>
+        <div class="met"><div class="mv">${c.ws}</div><div class="ml">Walk Score</div></div>
+      </div>
+      ${barsHTML}
+      <div class="wx"><span>Weather:</span> <span class="wt">Loading...</span></div>
+      ${nearbyHTML}
+      <div class="accordion">
+        <button class="acc-btn" data-t="fin">Financials & COL <span class="arr">▼</span></button>
+        <div class="acc-body"><div class="acc-inner lazy" data-t="fin"></div></div>
+        <button class="acc-btn" data-t="jobs">Job Market <span class="arr">▼</span></button>
+        <div class="acc-body"><div class="acc-inner lazy" data-t="jobs"></div></div>
+        <button class="acc-btn" data-t="sent">Daily Sentiment <span class="arr">▼</span></button>
+        <div class="acc-body"><div class="acc-inner lazy" data-t="sent"></div></div>
+        <button class="acc-btn" data-t="cam">Webcams <span class="arr">▼</span></button>
+        <div class="acc-body"><div class="acc-inner lazy" data-t="cam"></div></div>
+        <button class="acc-btn" data-t="evt">Events <span class="arr">▼</span></button>
+        <div class="acc-body"><div class="acc-inner lazy" data-t="evt"></div></div>
+        <button class="acc-btn" data-t="sch">Schools <span class="arr">▼</span></button>
+        <div class="acc-body"><div class="acc-inner lazy" data-t="sch"></div></div>
+      </div>
+    </div>`;
+}
+
+/* === COMPARE TABLE === */
+function renderCmp(top){
+  const t=document.getElementById('cmpTbl');
+  const m=[['Median Home',c=>c.mp],['Avg Rent',c=>c.rent],['COL Index',c=>c.col],['Walk Score',c=>c.ws],['Food',c=>c.food+'/10'],['Outdoor',c=>c.out+'/10'],['Culture',c=>c.cul+'/10'],['Safety',c=>c.safe+'/10'],['Schools',c=>c.sch+'/10'],['Unemployment',c=>c.unemp],['Salary',c=>c.sal],['Breweries',c=>c.brew+'/10'],['Coffee',c=>c.cof+'/10'],['Beauty',c=>c.beauty+'/10'],['Sunsets',c=>c.sunset+'/10']];
+  let h=`<thead><tr><th>Metric</th>${top.map(r=>`<th>${r.name}<br><span style="font-size:.6rem;opacity:.7">${r.score}/100</span></th>`).join('')}</tr></thead><tbody>`;
+  m.forEach(([l,fn])=>{const vs=top.map(r=>fn(r.city));h+=`<tr><td style="font-weight:700;color:var(--g800)">${l}</td>${vs.map(v=>`<td>${v}</td>`).join('')}</tr>`});
+  h+='</tbody>';t.innerHTML=h;
+}
+
+/* === ACCORDION WIRING + LAZY LOAD === */
+function wireAcc(card,r){
+  card.querySelectorAll('.acc-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const body=btn.nextElementSibling,isOpen=btn.classList.contains('open');
+      card.querySelectorAll('.acc-btn.open').forEach(b=>{b.classList.remove('open');b.nextElementSibling.style.maxHeight='0'});
+      if(!isOpen){btn.classList.add('open');
+        const lz=body.querySelector('.lazy');
+        if(lz&&!lz.dataset.ld){loadAcc(lz,r);lz.dataset.ld='1'}
+        body.style.maxHeight=body.scrollHeight+600+'px';
+        setTimeout(()=>body.style.maxHeight=body.scrollHeight+'px',500);
+      }
+    });
+  });
+}
+function loadAcc(el,r){
+  const t=el.dataset.t,c=r.city;el.innerHTML='<div class="spinner"></div>';
+  switch(t){
+    case'fin':setTimeout(()=>{const d=c.col-100,l=d>0?d+'% above':Math.abs(d)+'% below';
+      el.innerHTML=`<table><tr><th>Metric</th><th>Value</th></tr><tr><td>Median Home</td><td><strong>${c.mp}</strong></td></tr><tr><td>Avg Rent</td><td>${c.rent}</td></tr><tr><td>Utilities</td><td>${c.util}</td></tr><tr><td>Groceries</td><td>${c.groc}</td></tr><tr><td>COL Index</td><td>${c.col} — <em>${l} US avg</em></td></tr></table><p class="ext">EXTENSION: Numbeo/BLS CPI API</p>`;expand(el)},350);break;
+    case'jobs':setTimeout(()=>{const mt=curPrefs.industry&&c.ind.toLowerCase().includes(curPrefs.industry.toLowerCase());
+      el.innerHTML=`<table><tr><th>Metric</th><th>Value</th></tr><tr><td>Unemployment</td><td>${c.unemp}</td></tr><tr><td>Avg Salary</td><td>${c.sal}</td></tr><tr><td>Industries</td><td>${c.ind}${mt?' <span class="hl">Match!</span>':''}</td></tr></table>${curPrefs.jobSit==='remote'?'<p style="margin-top:.4rem"><strong>Remote-friendly</strong></p>':''}<p class="ext">EXTENSION: LinkedIn Jobs API</p>`;expand(el)},350);break;
+    case'sent':loadReddit(el,c);break;
+    case'cam':setTimeout(()=>{el.innerHTML=c.webcams.join('<br style="margin:.4rem 0">');expand(el)},200);break;
+    case'evt':setTimeout(()=>{el.innerHTML=`<ul class="post-list">${c.events.map(e=>`<li><strong>${e.n}</strong> — ${e.d} <span class="stag stag-neu">${e.t}</span></li>`).join('')}</ul><p class="ext">EXTENSION: Eventbrite API</p>`;expand(el)},300);break;
+    case'sch':setTimeout(()=>{el.innerHTML=`<ul class="post-list">${c.schools.map(s=>`<li><strong>${s.n}</strong> — ${s.t} — <strong>${s.r}/10</strong></li>`).join('')}</ul><p class="ext">EXTENSION: GreatSchools API</p>`;expand(el)},300);break;
+  }
+}
+async function loadReddit(el,city){
+  try{const resp=await fetch(`https://www.reddit.com/r/${city.sub}/new.json?limit=30`,{headers:{'Accept':'application/json'}});
+    if(!resp.ok)throw 0;const data=await resp.json();
+    const posts=data.data.children.map(c=>({title:c.data.title,url:`https://reddit.com${c.data.permalink}`,s:sent(c.data.title)})).slice(0,15);
+    const tot=posts.length||1,pp=Math.round(posts.filter(p=>p.s==='positive').length/tot*100),np=Math.round(posts.filter(p=>p.s==='negative').length/tot*100);
+    const all=posts.map(p=>p.title.toLowerCase()).join(' '),anom=anomKw.filter(k=>all.includes(k));
+    const vibe=pp>50?'Positive':np>40?'Negative':pp>np+10?'Leaning Positive':'Neutral';
+    const vc=vibe.includes('Pos')?'stag-pos':vibe.includes('Neg')?'stag-neg':'stag-neu';
+    let h=`<p><strong>Vibe:</strong> <span class="stag ${vc}">${vibe}</span></p><div style="display:flex;gap:.3rem;margin:.3rem 0"><span class="stag stag-pos">${pp}%</span><span class="stag stag-neu">${100-pp-np}%</span><span class="stag stag-neg">${np}%</span></div>`;
+    if(np>25||anom.length)h+=`<p style="color:#991b1b;font-weight:600;margin-top:.3rem">⚠ ${np>25?'High negative. ':''}${anom.length?'Keywords: '+anom.join(', '):''}</p>`;
+    h+=`<ul class="post-list">${posts.slice(0,8).map(p=>{const b=p.s==='positive'?'stag-pos':p.s==='negative'?'stag-neg':'stag-neu';return`<li><span class="stag ${b}">${p.s}</span> <a href="${p.url}" target="_blank">${esc(p.title)}</a></li>`}).join('')}</ul>`;
+    el.innerHTML=h;
+  }catch{el.innerHTML='<p>Reddit unavailable (CORS). <span class="ext">Use backend proxy.</span></p>'}
+  expand(el);
+}
+
+/* === RESEARCH PANEL — triggered by nearby town clicks === */
+/* EXTENSION POINT: Replace mock data with real API calls
+   (Zillow, Numbeo, GreatSchools, Google Places, etc.) */
+function openResearch(townName,parentCity,parentData){
+  document.getElementById('rpBk').classList.add('open');
+  document.getElementById('rPanel').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('rpTitle').textContent=townName;
+  const body=document.getElementById('rpBody');
+  const town=parentData.nearby.find(t=>t.name===townName);
+  if(!town){body.innerHTML='<p>Town data not found.</p>';return}
+
+  // Show loading state first
+  body.innerHTML=`
+    <div class="rp-status"><div class="spinner"></div> AI researching ${townName}...</div>
+    <div class="rp-section"><h4>Quick Facts</h4>
+      <div class="rp-metric"><span class="rml">Population</span><span class="rmv">${town.pop}</span></div>
+      <div class="rp-metric"><span class="rml">Est. Median Home</span><span class="rmv">${town.mp}</span></div>
+      <div class="rp-metric"><span class="rml">Distance from ${parentCity.split(',')[0]}</span><span class="rmv">${town.dist}</span></div>
+      <div class="rp-metric"><span class="rml">Vibe</span><span class="rmv">${town.vibe}</span></div>
+    </div>
+    <div class="rp-section" id="rpWx"><h4>Current Weather</h4><div class="wx"><span class="wt">Loading...</span></div></div>
+    <div class="rp-section" id="rpMore"><h4>Detailed Analysis</h4><div class="spinner"></div></div>
+    <div class="rp-compare"><strong>vs ${parentCity}:</strong> ${town.name} offers a ${parseInt(town.mp.replace(/[^0-9]/g,''))*1000 < parentData.mpn ? 'more affordable' : 'comparable cost'} alternative with ${town.dist} commute distance.</div>
+  `;
+
+  // Fetch weather for the town
+  fetchWx(town.lat,town.lon,body.querySelector('.wx'));
+
+  // Simulate deeper research loading
+  setTimeout(()=>{
+    const moreEl=document.getElementById('rpMore');
+    // Derive estimated data from parent city
+    const parentMpn=parentData.mpn;
+    const townMpn=parseInt(town.mp.replace(/[^0-9]/g,''))*1000;
+    const priceRatio=townMpn/parentMpn;
+    const estRent='$'+Math.round(parentData.rentn*priceRatio/50)*50;
+    const estCol=Math.round(parentData.col*(.9+priceRatio*.1));
+
+    moreEl.innerHTML=`
+      <h4>Estimated Metrics (derived from ${parentCity.split(',')[0]} data)</h4>
+      <div class="rp-metric"><span class="rml">Est. Monthly Rent</span><span class="rmv">${estRent}</span></div>
+      <div class="rp-metric"><span class="rml">Est. COL Index</span><span class="rmv">${estCol}</span></div>
+      <div class="rp-metric"><span class="rml">Parent Metro Schools</span><span class="rmv">${parentData.sch}/10</span></div>
+      <div class="rp-metric"><span class="rml">Parent Metro Safety</span><span class="rmv">${parentData.safe}/10</span></div>
+      <div class="rp-metric"><span class="rml">Climate</span><span class="rmv">${parentData.clim}</span></div>
+      <div class="rp-metric"><span class="rml">Metro Industries</span><span class="rmv">${parentData.ind}</span></div>
+      <p class="ext" style="margin-top:.75rem">EXTENSION POINT: Plug in Zillow API for exact home values, GreatSchools for school ratings, Yelp for local restaurants, Google Places for amenities. Each town click would trigger parallel API calls.</p>
+      <div class="rp-placeholder" style="margin-top:1rem">
+        <strong>Full Analysis Available with API Integration</strong>
+        Schools · Crime stats · Commute times · Local restaurants · Community events · Reddit sentiment · Walkability
+      </div>
+    `;
+    // Update status
+    body.querySelector('.rp-status').innerHTML=`✓ Research complete for ${townName}`;
+    body.querySelector('.rp-status').style.background='#ecfdf5';
+    body.querySelector('.rp-status').style.borderColor='#a7f3d0';
+    body.querySelector('.rp-status').style.color='#065f46';
+  },1200);
+}
+function closeResearch(){
+  document.getElementById('rpBk').classList.remove('open');
+  document.getElementById('rPanel').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* === MODAL FORM === */
+function toggleModal(open){
+  document.getElementById('modal').classList.toggle('open',open);
+  document.getElementById('modalBk').classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+// Build form HTML on load
+document.getElementById('modalFormArea').innerHTML=`
+<form id="prefsForm">
+  <div class="fs"><div class="fs-t">💰 Budget & Housing</div>
+    <div class="fr"><div class="fld"><label class="fl">Home Budget</label><select id="budget"><option value="low">&lt;$400k</option><option value="mid" selected>$400–600k</option><option value="high">$600k–$1M</option><option value="premium">$1M–$2M</option><option value="luxury">$2M–$3.5M</option><option value="ultra">$3.5M–$5M</option><option value="noLimit">$5M+</option></select></div>
+    <div class="fld"><label class="fl">OR Rent Budget</label><select id="rent"><option value="">Not renting</option><option value="1200">&lt;$1,200</option><option value="1600">$1,200–1,800</option><option value="2000">$1,800–2,200</option><option value="2500">&gt;$2,200</option></select></div></div>
+  </div>
+  <div class="fs"><div class="fs-t">☀️ Climate & Environment</div>
+    <div class="fld"><label class="fl">Climate</label><select id="climate"><option value="hot">Warm year-round</option><option value="mild">Mild</option><option value="four seasons">Four seasons</option><option value="cool">Cool & lush</option></select></div>
+    <div class="fld"><label class="fl">Coastal</label><div class="pg"><label class="pill"><input type="radio" name="coastal" value="must"><span class="pe">🏖️</span> Must</label><label class="pill"><input type="radio" name="coastal" value="nice"><span class="pe">🌊</span> Nice to have</label><label class="pill"><input type="radio" name="coastal" value="none" checked><span class="pe">🏔️</span> Don't care</label></div></div>
+    <div class="fld"><label class="fl">Natural beauty importance</label><div class="rd"><input type="range" id="beautyImp" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value+'/10'"><span class="rv">5/10</span></div></div>
+  </div>
+  <div class="fs"><div class="fs-t">🍽️ Food & Culture</div>
+    <div class="fld"><label class="fl">Food priority</label><div class="pg"><label class="pill"><input type="radio" name="food" value="critical"><span class="pe">🍽️</span> Critical</label><label class="pill"><input type="radio" name="food" value="important" checked><span class="pe">🍕</span> Important</label><label class="pill"><input type="radio" name="food" value="meh"><span class="pe">🤷</span> Not a priority</label></div></div>
+    <div class="fld"><label class="fl">Cuisines</label><div class="pg"><label class="pill"><input type="checkbox" class="cuisine" value="mexican"><span class="pe">🌮</span> Mexican</label><label class="pill"><input type="checkbox" class="cuisine" value="asian"><span class="pe">🍜</span> Asian</label><label class="pill"><input type="checkbox" class="cuisine" value="bbq"><span class="pe">🍖</span> BBQ</label><label class="pill"><input type="checkbox" class="cuisine" value="seafood"><span class="pe">🦞</span> Seafood</label><label class="pill"><input type="checkbox" class="cuisine" value="farm"><span class="pe">🥬</span> Farm-to-table</label><label class="pill"><input type="checkbox" class="cuisine" value="coffee"><span class="pe">☕</span> Coffee</label><label class="pill"><input type="checkbox" class="cuisine" value="brewery"><span class="pe">🍺</span> Breweries</label></div></div>
+    <div class="fld"><label class="fl">Culture</label><div class="pg"><label class="pill"><input type="checkbox" class="culture" value="livemusic"><span class="pe">🎵</span> Live music</label><label class="pill"><input type="checkbox" class="culture" value="theater"><span class="pe">🎭</span> Theater</label><label class="pill"><input type="checkbox" class="culture" value="galleries"><span class="pe">🎨</span> Art</label><label class="pill"><input type="checkbox" class="culture" value="sports"><span class="pe">🏟️</span> Pro sports</label></div></div>
+  </div>
+  <div class="fs"><div class="fs-t">🏃 Activities & Lifestyle</div>
+    <div class="fld"><label class="fl">Lifestyle</label><div class="pg"><label class="pill"><input type="checkbox" class="lifestyle" value="walkable"><span class="pe">🚶</span> Walkable</label><label class="pill"><input type="checkbox" class="lifestyle" value="outdoor"><span class="pe">🌲</span> Nature</label><label class="pill"><input type="checkbox" class="lifestyle" value="lowTax"><span class="pe">💰</span> Low taxes</label><label class="pill"><input type="checkbox" class="lifestyle" value="suburban"><span class="pe">🏡</span> Suburban</label><label class="pill"><input type="checkbox" class="lifestyle" value="diversity"><span class="pe">🌍</span> Diversity</label></div></div>
+  </div>
+  <div class="fs"><div class="fs-t">👨‍👩‍👧 Family</div>
+    <div class="fld"><div class="pg"><label class="pill"><input type="checkbox" id="youngKids"><span class="pe">👶</span> Young kids</label><label class="pill"><input type="checkbox" id="lowCrime"><span class="pe">🛡️</span> Low crime critical</label></div></div>
+  </div>
+  <div class="fs"><div class="fs-t">💼 Work</div>
+    <div class="fr"><div class="fld"><label class="fl">Job</label><select id="jobSit"><option value="remote">Fully remote</option><option value="hybrid">Hybrid</option><option value="local">Local market</option></select></div>
+    <div class="fld"><label class="fl">Industry</label><input type="text" id="industry" placeholder="e.g. Tech, Finance"></div></div>
+  </div>
+  <div class="fs"><div class="fs-t">🚫 Dealbreakers</div>
+    <div class="fld"><textarea id="avoid" placeholder="e.g. extreme heat, sprawl, crime, humidity"></textarea></div>
+  </div>
+  <button type="submit" class="form-go">Re-analyze with My Preferences</button>
+</form>`;
+
+/* === FORM SUBMIT === */
+document.getElementById('prefsForm').addEventListener('submit',e=>{
+  e.preventDefault();toggleModal(false);
+  const ld=document.getElementById('loader');ld.classList.add('on');document.body.style.overflow='hidden';
+  const steps=['ls1','ls2','ls3','ls4','ls5'];
+  steps.forEach((id,i)=>{setTimeout(()=>{steps.forEach(s=>{document.getElementById(s).classList.remove('on','done')});for(let j=0;j<i;j++)document.getElementById(steps[j]).classList.add('done');document.getElementById(id).classList.add('on')},i*350)});
+  setTimeout(()=>{curPrefs=formPrefs();scoreAll(curPrefs);renderGrid(scored);ld.classList.remove('on');document.body.style.overflow='';
+    document.getElementById('rTitle').textContent='Personalized Matches';
+    document.getElementById('rCount').textContent=scored.length+' cities — personalized';
+    document.getElementById('grid').scrollIntoView({behavior:'smooth'});
+  },2000);
+});
+
+/* === QUICK WIZARD === */
+const wizSteps=[
+  {q:"What's your home budget range?",key:"budget",multi:false,opts:[
+    {v:"low",icon:"🏠",label:"Under $400K",sub:"Starter / affordable"},
+    {v:"mid",icon:"🏡",label:"$400K – $600K",sub:"Mid-range"},
+    {v:"high",icon:"🏘️",label:"$600K – $1M",sub:"Move-up"},
+    {v:"premium",icon:"🏰",label:"$1M – $2M",sub:"Premium"},
+    {v:"luxury",icon:"💎",label:"$2M – $3.5M",sub:"Luxury"},
+    {v:"ultra",icon:"🌟",label:"$3.5M – $5M",sub:"Ultra luxury"},
+    {v:"noLimit",icon:"♾️",label:"$5M+",sub:"No limit"}
+  ]},
+  {q:"What climate do you prefer?",key:"climate",multi:false,opts:[
+    {v:"hot",icon:"☀️",label:"Warm year-round",sub:"Sun & heat"},
+    {v:"mild",icon:"🌤️",label:"Mild",sub:"Gentle temps"},
+    {v:"four seasons",icon:"🍂",label:"Four seasons",sub:"Variety"},
+    {v:"cool",icon:"🌧️",label:"Cool & lush",sub:"Pacific NW style"}
+  ]},
+  {q:"Must it be coastal?",key:"coastPref",multi:false,opts:[
+    {v:"must",icon:"🏖️",label:"Must be coastal",sub:"Non-negotiable"},
+    {v:"nice",icon:"🌊",label:"Nice to have",sub:"Prefer it"},
+    {v:"none",icon:"🏔️",label:"Don't care",sub:"Inland is fine"}
+  ]},
+  {q:"What matters most? (pick all that apply)",key:"life",multi:true,opts:[
+    {v:"walkable",icon:"🚶",label:"Walkable"},
+    {v:"outdoor",icon:"🌲",label:"Nature & outdoors"},
+    {v:"lowTax",icon:"💰",label:"Low taxes"},
+    {v:"suburban",icon:"🏡",label:"Suburban feel"},
+    {v:"diversity",icon:"🌍",label:"Diversity"}
+  ]},
+  {q:"How important is the food scene?",key:"foodPri",multi:false,opts:[
+    {v:"critical",icon:"🍽️",label:"Critical",sub:"Top priority"},
+    {v:"important",icon:"🍕",label:"Important",sub:"Matters a lot"},
+    {v:"meh",icon:"🤷",label:"Not a priority",sub:"I cook at home"}
+  ]},
+  {q:"Family needs?",key:"family",multi:true,opts:[
+    {v:"youngKids",icon:"👶",label:"Young kids",sub:"Schools & safety"},
+    {v:"lowCrime",icon:"🛡️",label:"Low crime",sub:"Safety critical"},
+    {v:"none",icon:"🙂",label:"No specific needs",sub:"Flexible"}
+  ]}
+];
+let wizCur=0,wizSel={};
+function openWizard(){wizCur=0;wizSel={};document.getElementById('wizBk').classList.add('open');renderWizStep()}
+function closeWizard(){document.getElementById('wizBk').classList.remove('open')}
+document.getElementById('wizBk').addEventListener('click',e=>{if(e.target===e.currentTarget)closeWizard()});
+function renderWizStep(){
+  const s=wizSteps[wizCur],bd=document.getElementById('wizBody');
+  const dots=document.getElementById('wizDots');
+  dots.innerHTML=wizSteps.map((_,i)=>`<div class="wiz-dot ${i<wizCur?'done':i===wizCur?'active':''}"></div>`).join('');
+  let h=`<div class="wiz-q">${s.q}</div>`;
+  if(s.multi)h+=`<div class="wiz-multi-hint">Select one or more</div>`;
+  h+=`<div class="wiz-opts">`;
+  const cur=wizSel[s.key]||(s.multi?[]:'');
+  s.opts.forEach(o=>{
+    const isSel=s.multi?cur.includes(o.v):cur===o.v;
+    h+=`<div class="wiz-opt${isSel?' sel':''}" data-v="${o.v}" onclick="wizPick(this,'${s.key}',${s.multi})">
+      <span class="wo-icon">${o.icon}</span>${o.label}${o.sub?`<div class="wo-sub">${o.sub}</div>`:''}
+    </div>`;
+  });
+  h+=`</div>`;
+  bd.innerHTML=h;
+  document.getElementById('wizBack').style.display=wizCur===0?'none':'';
+  const isLast=wizCur===wizSteps.length-1;
+  document.getElementById('wizNext').textContent=isLast?'Show Results ✨':'Next →';
+}
+function wizPick(el,key,multi){
+  const v=el.dataset.v;
+  if(multi){
+    if(!wizSel[key])wizSel[key]=[];
+    if(v==='none'){wizSel[key]=['none'];}
+    else{wizSel[key]=wizSel[key].filter(x=>x!=='none');const idx=wizSel[key].indexOf(v);if(idx>-1)wizSel[key].splice(idx,1);else wizSel[key].push(v);}
+  }else{wizSel[key]=v;}
+  renderWizStep();
+}
+function wizNext(){
+  if(wizCur<wizSteps.length-1){wizCur++;renderWizStep();}
+  else{applyWizard();}
+}
+function wizPrev(){if(wizCur>0){wizCur--;renderWizStep();}}
+function applyWizard(){
+  closeWizard();
+  const p=defPrefs();
+  if(wizSel.budget)p.budget=wizSel.budget;
+  if(wizSel.climate)p.climate=wizSel.climate;
+  if(wizSel.coastPref)p.coastPref=wizSel.coastPref;
+  if(wizSel.foodPri)p.foodPri=wizSel.foodPri;
+  if(wizSel.life&&!wizSel.life.includes('none'))p.life=wizSel.life;
+  if(wizSel.family){
+    if(wizSel.family.includes('youngKids'))p.youngKids=true;
+    if(wizSel.family.includes('lowCrime'))p.lowCrime=true;
+  }
+  // Sync Deep Personalize form
+  if($('budget'))$('budget').value=p.budget;
+  if($('climate'))$('climate').value=p.climate;
+  const cRadio=document.querySelector(`input[name="coastal"][value="${p.coastPref}"]`);if(cRadio)cRadio.checked=true;
+  const fRadio=document.querySelector(`input[name="food"][value="${p.foodPri}"]`);if(fRadio)fRadio.checked=true;
+  if($('youngKids'))$('youngKids').checked=p.youngKids;
+  if($('lowCrime'))$('lowCrime').checked=p.lowCrime;
+  $$('.lifestyle').forEach(c=>{c.checked=p.life.includes(c.value)});
+  curPrefs=p;
+  // Animate
+  const ld=document.getElementById('loader');ld.classList.add('on');document.body.style.overflow='hidden';
+  const steps=['ls1','ls2','ls3','ls4','ls5'];
+  steps.forEach((id,i)=>{setTimeout(()=>{steps.forEach(s=>{document.getElementById(s).classList.remove('on','done')});for(let j=0;j<i;j++)document.getElementById(steps[j]).classList.add('done');document.getElementById(id).classList.add('on')},i*350)});
+  setTimeout(()=>{scoreAll(curPrefs);renderGrid(scored);ld.classList.remove('on');document.body.style.overflow='';
+    document.getElementById('rTitle').textContent='Personalized Matches';
+    document.getElementById('rCount').textContent=scored.length+' cities — personalized';
+    document.getElementById('grid').scrollIntoView({behavior:'smooth'});
+  },2000);
+}
+
+/* === FILTER CHIPS === */
+document.getElementById('filterBar').addEventListener('click',e=>{
+  const ch=e.target.closest('.chip');if(!ch)return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));ch.classList.add('active');
+  const f=ch.dataset.filter;let fl=[...scored];
+  if(f==='coastal')fl=fl.filter(r=>r.city.coast);
+  else if(f==='hot')fl=fl.filter(r=>r.city.clim==='hot');
+  else if(f==='cool')fl=fl.filter(r=>r.city.clim==='cool');
+  else if(f==='foodie')fl=fl.filter(r=>r.city.food>=8);
+  else if(f==='outdoor')fl=fl.filter(r=>r.city.out>=9);
+  else if(f==='affordable')fl=fl.filter(r=>r.city.mpn<480000);
+  else if(f==='walkable')fl=fl.filter(r=>r.city.ws>=60);
+  if(!fl.length)fl=scored;
+  renderGrid(fl);
+});
+
+/* === SORT === */
+document.getElementById('sortSel').addEventListener('change',e=>{
+  const v=e.target.value;let s=[...scored];
+  if(v==='price-asc')s.sort((a,b)=>a.city.mpn-b.city.mpn);
+  else if(v==='price-desc')s.sort((a,b)=>b.city.mpn-a.city.mpn);
+  else if(v==='food')s.sort((a,b)=>b.city.food-a.city.food);
+  else if(v==='outdoor')s.sort((a,b)=>b.city.out-a.city.out);
+  else if(v==='safety')s.sort((a,b)=>b.city.safe-a.city.safe);
+  else if(v==='walk')s.sort((a,b)=>b.city.ws-a.city.ws);
+  else s.sort((a,b)=>b.score-a.score);
+  renderGrid(s);
+});
+
+/* === INIT — load grid immediately with default scoring === */
+scoreAll(curPrefs);
+renderGrid(scored);
+// Auto-open wizard on first visit
+if(!localStorage.getItem('nhl_wizard_done')){setTimeout(()=>openWizard(),800);}
+function applyWizardDone(){localStorage.setItem('nhl_wizard_done','1');}
+const _origApply=applyWizard;
+applyWizard=function(){_origApply();applyWizardDone();};
+</script>
+</body>
+</html>
